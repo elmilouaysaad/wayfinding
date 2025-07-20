@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Wayfinder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container" class="container">
+        <!-- View Toggle Button -->
+        <div id="view-toggle-container" class="view-toggle-container">
+            <button id="view-toggle-btn" class="view-toggle-btn">
+                <span id="toggle-icon">🖼️</span>
+                <span id="toggle-text">Picture View</span>
+            </button>
+        </div>
+        
+        <div id="map"></div>
+        <div id="picture-view" class="picture-view" style="display: none;">
+            <img src="maps.png" alt="Campus Picture View" width="100%" height="100%">
+            
+        </div>
+        <div class="sidebar">
+            <!-- Language Selection -->
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="en">🇺🇸 EN</button>
+                <button class="lang-btn" data-lang="fr">🇫🇷 FR</button>
+                <button class="lang-btn" data-lang="ar">🇸🇦 AR</button>
+            </div>
+            
+            <h1 data-translate="app_title">Campus Wayfinder</h1>
+            <!-- Add this near the top of your sidebar -->
+            <div class="location-list">
+                <select id="location-select" class="location-select">
+                    <option value="" disabled selected data-translate="select_location">Select a location</option>
+                </select>
+            </div>
+            <div class="search-container">
+    <input type="text" id="location-search" data-translate-placeholder="search_placeholder">
+    <div id="search-results" class="search-results"></div>
+</div>
+
+            <!-- Legend Section -->
+            <!-- <div id="legend-container" class="legend-container">
+                <h3 data-translate="legend_title">Map Legend</h3>
+                <div id="legend-items"></div>
+            </div> -->
+            
+            <div id="location-info"></div>
+            <div id="qr-container"></div>
+            <div style="max-width: 300px; margin: 40px auto; padding: 20px; background-color: #f4f4f4; border: 1px solid #ccc; border-radius: 10px; text-align: center; font-family: Arial, sans-serif;">
+                <p style="font-size: 16px; color: #555; margin-bottom: 6px;">Security Phone Number</p>
+                <div id="phone1" style="font-size: 18px; color: #222; font-weight: bold;">
+                  📞 05 35 86 22 22
+                </div>
+                <p style="font-size: 16px; color: #555; margin-bottom: 6px;">Standard Phone Number</p>
+                <div id="phone2" style="font-size: 18px; color: #222; font-weight: bold;">
+                  📞 05 35 86 20 00
+                </div>
+              </div>
+              
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="translations.js"></script>
+    <script src="paths.js"></script>
+    <script src="map.js"></script>
+    <script src="qr.js"></script>
+    <!-- Replace the existing QR code script with this version -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
