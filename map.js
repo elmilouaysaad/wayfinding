@@ -157,7 +157,7 @@ const locations = {
         consideredAs: "admissions",
         keywords: ["president",,"registrar","office", "financial","human resources"],
         description: 'Offices for various administrative functions',
-        facilities: [],
+        
         hours: 'Mon-Fri: 8:30-16:30',
         parent: 'administrative_area',
     },
