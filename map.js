@@ -310,7 +310,7 @@ function initMap(defaultLocationId) {
     };
 
     // Initialize map centered at default location
-    map = L.map('map').setView([33.53944687014948, -5.106774445866627], 16); 
+    map = L.map('map').setView([33.53944687014948, -5.106774445866627], 17); 
     const welcomeContainer = L.DomUtil.create('div', 'map-welcome');
 welcomeContainer.innerHTML = '<div class="map-welcome-box">Welcome to AUI</div>';
 
