@@ -1,6 +1,35 @@
 // Get location from URL (e.g., ?location=library)
 const urlParams = new URLSearchParams(window.location.search);
-const locationId = urlParams.get('location') || 'parking_1';
+const locationId = urlParams.get('location') || 'administrative_area';
+let idleTimeout;
+const idleDelay = 30000; // 30 seconds
+
+const idleScreen = document.getElementById("idle-screen");
+
+// Show splash
+function showIdleScreen() {
+  idleScreen.style.display = "flex";
+}
+
+// Hide splash
+function hideIdleScreen() {
+  idleScreen.style.display = "none";
+}
+
+// Reset timer on activity
+function resetIdleTimer() {
+  hideIdleScreen();
+  clearTimeout(idleTimeout);
+  idleTimeout = setTimeout(showIdleScreen, idleDelay);
+}
+
+// Events that count as "activity"
+["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(event => {
+  document.addEventListener(event, resetIdleTimer);
+});
+
+// Start timer on load
+resetIdleTimer();
 
 // Initialize map with the current location as default starting point
 initMap(locationId);
@@ -112,7 +141,9 @@ function onLocationSelected(locationId) {
             }
         });
     }
-    
+    //empty the search box and dropdown
+    document.getElementById('location-search').value = "";
+                    document.getElementById('location-select').value = "";
     // Update path and highlights
     highlightLocation(locationId);
     updateMapWithPath(locationId);
@@ -128,7 +159,8 @@ document.getElementById('location-select').addEventListener('change', function()
 
     if (this.value) {
         const locationId = this.value;
-        
+        document.getElementById('location-search').value = "";
+                    document.getElementById('location-select').value = "";
         // Update highlights and selection
         highlightLocation(locationId);
         onLocationSelected(locationId);
@@ -237,7 +269,8 @@ function selectResult(id) {
     searchInput.value = locations[id].name;
     searchResults.style.display = 'none';
     document.getElementById('location-select').value = "";
-    
+    document.getElementById('location-search').value = "";
+    // document.getElementById('location-select').value = "";
     // Trigger highlight and selection
     highlightLocation(id);
     onLocationSelected(id);
@@ -350,7 +383,9 @@ function initializeViewToggle() {
     const toggleText = document.getElementById('toggle-text');
     const mapElement = document.getElementById('map');
     const pictureElement = document.getElementById('picture-view');
-    
+    // Create a DOM element and append it into the map container
+
+
     toggleBtn.addEventListener('click', function() {
         isMapView = !isMapView;
         
@@ -410,19 +445,29 @@ function translatePage(language) {
     updateLocationDropdown(language);
     
     // Update legend
-    updateLegend(language);
+    // updateLegend(language);
     
     // Update view toggle button
     updateViewToggleButton(language);
     
     // Update picture view content
     updatePictureView(language);
-    
     // Re-generate location info if a location is selected
     const locationSelect = document.getElementById('location-select');
     if (locationSelect.value) {
         onLocationSelected(locationSelect.value);
+    updateMapWithPath(locationId);
+
+        // window.location.reload();
     }
+    //if location info is open, retranslate it
+    if (document.getElementById('location-info').innerHTML.trim() !== '') {
+        onLocationSelected(locationSelect.value);
+    updateMapWithPath(locationId);
+
+    }
+
+    //refresh the window
 }
 
 function updateLocationDropdown(language) {
@@ -436,15 +481,19 @@ function updateLocationDropdown(language) {
         <option value="sse">🎓 ├─ ${translations[language].sse}</option>
         <option value="sba">🎓 ├─ ${translations[language].sba}</option>
         <option value="shass">🎓 ├─ ${translations[language].shass}</option>
+        <option value="lc">🎓 ├─ ${translations[language].lc}</option>
+        <option value="library">🎓 ├─ ${translations[language].library}</option>
+        <option value="aud4">🎓 ├─ ${translations[language].aud4}</option>
         <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
         <option value="gym">💪 ├─ ${translations[language].gym}</option>
         <option value="health_center">🏥 ${translations[language].health_center}</option>
         <option value="administrative_area">🏛️ ${translations[language].administrative_area}</option>
-        <option value="building_1_p">📋 ├─ Building 1 VPAA side</option>
+        <option value="building_1_p">📋 ├─ ${translations[language].building_1_p}</option>
         <option value="registrar_office">📋 ├─├─ ${translations[language].registrar_office}</option>
-        <option value="building_1_v">📋 ├─ Building 1 VPAA side</option>
-        <option value="admissions">📋 ├─ Admissions Office</option>
+        <option value="building_1_v">📋 ├─ ${translations[language].building_1_v}</option>
+        <option value="admissions">📋 ├─ ${translations[language].admissions}</option>
         <option value="housing_department">🏠 ${translations[language].housing_department}</option>
+        <option value="aud17">🎭 ${translations[language].aud17}</option>
     `;
     
     // Restore selected value
@@ -552,8 +601,11 @@ function initializeLanguageSelector() {
             
             // Get selected language
             const selectedLanguage = this.getAttribute('data-lang');
-            
             // Translate page
+            console.log("Selected language:", selectedLanguage);
+            document.getElementById('location-info').innerHTML = "";
+            document.getElementById('qr-container').innerHTML = "";
+            
             translatePage(selectedLanguage);
         });
     });
@@ -564,7 +616,6 @@ function onLocationSelectedWithTranslation(locationId) {
     const physicalLocations = resolveLocation(locationId);
     const location = locations[locationId];
     const lang = currentLanguage;
-    
     // Get translated location name and description
     const locationName = translations[lang][locationId] || location.name;
     const locationDesc = translations[lang][locationId + '_desc'] || location.description || translations[lang].no_description || 'No description available';
@@ -587,6 +638,7 @@ function onLocationSelectedWithTranslation(locationId) {
     }
     // Add facilities if available
     if (location.facilities && location.facilities.length > 0) {
+        if (lang === 'en') {
         infoHTML += `
             <div class="location-section">
                 <h4>${translations[lang].facilities}:</h4>
@@ -595,6 +647,24 @@ function onLocationSelectedWithTranslation(locationId) {
                 </ul>
             </div>
         `;
+        } else if (lang === 'fr' && location.facilitiesFr) {
+            infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].facilities}:</h4>
+                <ul class="facilities-list">
+                    ${location.facilitiesFr.map(facility => `<li>${facility}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        } else if (lang === 'ar' && location.facilitiesAr) {
+            infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].facilities}:</h4>
+                <ul class="facilities-list">
+                    ${location.facilitiesAr.map(facility => `<li style="margin-left: 10px;">${facility}</li>`).join('')}
+                </ul>
+            </div>
+        `;}
     }
     
     // Add hours if available
@@ -665,7 +735,8 @@ function onLocationSelectedWithTranslation(locationId) {
             }
         });
     }
-    
+    document.getElementById('location-search').value = "";
+    document.getElementById('location-select').value = "";
     // Update path and highlights
     highlightLocation(locationId);
     updateMapWithPath(locationId);

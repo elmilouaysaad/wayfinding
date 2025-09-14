@@ -63,8 +63,8 @@ const locations = {
     },
     shass: {
         name: 'School of humanities, arts and social sciences',
-        lat: 33.53862096347076,
-        lng: -5.107857515328795,
+        lat: 33.538511816880295,
+        lng: -5.107714257274234,
         size: "medium",
         icon: '🎓', 
         radius: 18,
@@ -73,6 +73,43 @@ const locations = {
         facilities: [],
         parent: 'academic_area',
         consideredAs: "academic_area",
+
+    },
+    lc: {
+        name: 'Language Center',
+        lat: 33.538752794235855,
+        lng: -5.107983526706323,
+        size: "medium",
+        icon: '🎓', 
+        radius: 18,
+        type: 'area',
+        facilities: [],
+        parent: 'academic_area',
+        consideredAs: "academic_area",
+
+    },
+    library: {
+        name: 'Library',//33.53998022753746, -5.107371310007053
+        lat: 33.53998022753746,
+        lng: -5.107371310007053,
+        size: "large",
+        icon: '🎓', 
+        radius: 25,
+        type: 'area',
+        facilities: [],
+        consideredAs: "library",
+        parent: 'academic_area',
+        description: 'Main library with extensive collection and study spaces',
+    },
+    aud17: {
+        name: 'Auditorium 17',//33.53770143246429, -5.106580345156357
+        lat: 33.53770143246429,
+        lng: -5.106580345156357,
+        size: "large",
+        icon: '🎭', //theater mask
+        radius: 15,
+        type: 'area',
+        facilities: [],
 
     },
     athletic_area: {
@@ -85,6 +122,8 @@ const locations = {
         type: 'area',
         description: 'Sports facilities and recreational areas',
         facilities: ['Football field', 'Gymnasium', 'Weight room'],
+        facilitiesFr: ['Terrain de Football', 'Gymnase', 'Salle de Musculation'],
+        facilitiesAr: ['ملعب كرة القدم', 'صالة الألعاب الرياضية', 'غرفة الأثقال'],
         children: ['gym']
     },
     health_center: {
@@ -110,7 +149,7 @@ const locations = {
         radius: 50,
         type: 'area',
         description: 'Administrative offices and student services',
-        facilities: ['Student services', 'Admissions', 'Financial aid', 'Records'],
+        facilities: ['Student services', 'Admissions', 'Financial aid', 'Registrar Office'],
         children: ['building_1_p', 'building_1_v'],
     },
     housing_department: {
@@ -123,6 +162,7 @@ const locations = {
         type: 'building',
         description: 'Student housing services and dormitory management',
         facilities: ['Housing applications', 'Maintenance requests', 'Resident services'],
+        phone: '📞0535862062',
         hours: 'Mon-Fri: 9:00-16:00',
         children: []
     },
@@ -131,7 +171,7 @@ const locations = {
         name: 'Registrar Office', 
         lat: 33.538585036322445, 
         lng: -5.106267986778564, 
-        size: "small",
+        size: "medium",
         icon: '📋', 
         radius: 5,
         type: 'office',
@@ -150,10 +190,13 @@ const locations = {
         icon: '💪',
         radius: 25,
         type: 'building',
-        consideredAs: "athletic_area",
+        
         description: 'Modern fitness center with equipment and classes',
-        facilities: ['Weight training', 'Cardio equipment', 'Group classes', 'Locker rooms'],
-        hours: 'Mon-Fri: 6:00-22:00, Sat-Sun: 8:00-20:00',
+        facilities: ['Weight training', 'Cardio equipment'],
+        facilitiesFr: ['Musculation', 'Équipement cardio'],
+        facilitiesAr: ['تدريب الأثقال', 'معدات القلب'],
+        phone: '📞0535862055',
+        hours: 'Mon-Fri: 7:00-22:00, Sat-Sun: 13:00-23:00',
         parent: 'athletic_area'
     },
     building_1_p: {
@@ -203,7 +246,21 @@ const locations = {
         hours: 'Mon-Fri: 8:30-16:30',
         parent: 'administrative_area',
     },
-
+    aud4: {//33.53901744927488, -5.107388521848436
+        name: 'Auditorium 4',
+        lat: 33.53901744927488,
+        lng: -5.107388521848436,
+        size: "medium",
+        icon: '🎓',//academic cap
+        radius: 30,
+        type: 'auditorium',
+        consideredAs: "auditorium",
+        keywords: ["auditorium", "event", "lecture"],
+        description: 'Large auditorium for events and lectures',
+        hours: 'Mon-Fri: 8:00-18:00',
+        parent: 'academic_area',
+        consideredAs: "academic_area",
+    }
 };
 function highlightLocation(locationId) {
     // Remove previous highlight
@@ -253,8 +310,24 @@ function initMap(defaultLocationId) {
     };
 
     // Initialize map centered at default location
-    map = L.map('map').setView([33.53944687014948, -5.106774445866627], 17); 
-    
+    map = L.map('map').setView([33.53944687014948, -5.106774445866627], 16); 
+    const welcomeContainer = L.DomUtil.create('div', 'map-welcome');
+welcomeContainer.innerHTML = '<div class="map-welcome-box">Welcome to AUI</div>';
+
+// Append to the map's container so it sits above the map
+map.getContainer().appendChild(welcomeContainer);
+
+// Prevent Leaflet from treating this element as map-interactive (so clicks still pass through)
+L.DomEvent.disableClickPropagation(welcomeContainer);
+L.DomEvent.disableScrollPropagation(welcomeContainer);
+    // Coordinates of AUI
+const auiCoords = [33.53849014139638, -5.111244953616295];
+
+// Create custom label
+L.marker(auiCoords).addTo(map)
+  .bindPopup("<b>Welcome to AUI</b>")
+  .openPopup();
+
     // Add tile layer
     L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
         subdomains: ['mt0','mt1','mt2','mt3'],
@@ -273,7 +346,7 @@ function initMap(defaultLocationId) {
     
     // Add all location markers
     Object.entries(locations).forEach(([id, loc]) => {
-        console.log(id);
+        // console.log(id);
         const size = sizeMapping[loc.size] || sizeMapping.medium;
         if (id !== defaultLocationId) {
             const marker= L.marker([loc.lat, loc.lng], {
@@ -318,6 +391,8 @@ function initMap(defaultLocationId) {
                 // Bring marker to front
                 marker.bringToFront();
                 marker.on('click', function() {
+                    document.getElementById('location-search').value = "";
+                    document.getElementById('location-select').value = "";
                     highlightLocation(id); // Use centralized highlight function
                     onLocationSelected(id);
                 });

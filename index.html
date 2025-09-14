@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="idle-screen" class="idle-screen" style="background-color: #1A5632;">
+  <img src="auilogo1.png" alt="Welcome" />
+</div>
+
     <div id="container" class="container">
         <!-- View Toggle Button -->
         <div id="view-toggle-container" class="view-toggle-container">
@@ -37,7 +41,7 @@
                     <option value="" disabled selected data-translate="select_location">Select a location</option>
                 </select>
             </div>
-            <div class="search-container">
+            <div class="search-container" style="width: 99%;;">
     <input type="text" id="location-search" data-translate-placeholder="search_placeholder">
     <div id="search-results" class="search-results"></div>
 </div>

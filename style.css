@@ -593,3 +593,58 @@ body {
     }
 }
 
+/* Make container a vertical layout */
+.container {
+  display: flex;
+  flex-direction: column; /* stack map and sidebar vertically */
+  height: 100vh; /* full viewport height */
+  overflow: hidden;
+}
+
+/* Map takes the top half */
+#map, 
+#picture-view {
+  flex: 1; /* take remaining available space */
+}
+
+/* Sidebar at the bottom */
+.sidebar {
+  height: 50vh; /* take about half of the screen */
+  width: 100%;  /* full width since it’s at the bottom */
+  overflow-y: auto; /* scroll if content is long */
+  background: #fff; /* keep background visible */
+  border-top: 2px solid #ccc; /* optional separator */
+  
+}
+.idle-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000; /* black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* stay above everything */
+}
+
+.idle-screen img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+/* Welcome text overlay on the Leaflet map */
+
+.welcome-label {
+  font-size: 96px;
+  font-weight: bold;
+  color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  text-align: center;
+  white-space: nowrap;
+}
