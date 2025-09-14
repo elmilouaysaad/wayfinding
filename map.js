@@ -411,7 +411,7 @@ function updateMapWithPath(destinationId) {
     const currentLocation = currentLocationMarker.getLatLng();
     
     // Resolve both start and end locations
-    const startIds = resolveLocation(urlParams.get('location') || 'parking_1');
+    const startIds = resolveLocation(urlParams.get('location') || 'administrative_area');
     const endIds = resolveLocation(destinationId);
     
     // Clear previous paths
