@@ -39,6 +39,9 @@ const translations = {
         library: "Central Library",
         lecture_hall_a: "Lecture Hall A",
         gym: "Fitness Center",
+        shass: "School of Humanities, Arts, and Social Sciences",
+        sse: "School of Science and Engineering",
+        sba: "School of Business Administration",
         // Location descriptions
         parking_1_desc: "Main parking area for visitors and students",
         academic_area_desc: "Main academic buildings and lecture halls",
@@ -90,6 +93,9 @@ const translations = {
         library: "Bibliothèque Centrale",
         lecture_hall_a: "Amphithéâtre A",
         gym: "Centre de Fitness",
+        shass: "École des Humanités, Arts et Sciences Sociales",
+        sse: "École des Sciences et Ingénierie",
+        sba: "École de Gestion des Affaires",
         // Location descriptions
         parking_1_desc: "Zone de stationnement principale pour visiteurs et étudiants",
         academic_area_desc: "Bâtiments académiques principaux et amphithéâtres",
@@ -141,6 +147,9 @@ const translations = {
         library: "المكتبة المركزية",
         lecture_hall_a: "قاعة المحاضرات أ",
         gym: "مركز اللياقة البدنية",
+        shass: "كلية العلوم الإنسانية والفنون والعلوم الاجتماعية",
+        sse: "كلية العلوم والهندسة",
+        sba: "كلية إدارة الأعمال",
         // Location descriptions
         parking_1_desc: "منطقة الوقوف الرئيسية للزوار والطلاب",
         academic_area_desc: "المباني الأكاديمية الرئيسية وقاعات المحاضرات",

@@ -433,6 +433,9 @@ function updateLocationDropdown(language) {
         <option value="" disabled selected>${translations[language].select_location}</option>
         <option value="parking_1">🅿️ ${translations[language].parking_1}</option>
         <option value="academic_area">🎓 ${translations[language].academic_area}</option>
+        <option value="sse">🎓 ├─ ${translations[language].sse}</option>
+        <option value="sba">🎓 ├─ ${translations[language].sba}</option>
+        <option value="shass">🎓 ├─ ${translations[language].shass}</option>
         <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
         <option value="gym">💪 ├─ ${translations[language].gym}</option>
         <option value="health_center">🏥 ${translations[language].health_center}</option>
