@@ -175,7 +175,7 @@ const locations = {
         icon: '📋', 
         radius: 5,
         type: 'office',
-        consideredAs: "administrative_area",
+        consideredAs: "registrar_office",
         keywords: ["registrar","office", "financial"],
         description: 'Student records, transcripts, and enrollment services',
         facilities: [],
