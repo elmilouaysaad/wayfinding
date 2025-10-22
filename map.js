@@ -329,12 +329,40 @@ L.marker(auiCoords).addTo(map)
   .openPopup();
 
     // Add tile layer
-    L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-        subdomains: ['mt0','mt1','mt2','mt3'],
-        attribution: '© Google Maps',
-        maxZoom: 20
-    }).addTo(map);
+    // L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    //     subdomains: ['mt0','mt1','mt2','mt3'],
+    //     attribution: '© Google Maps',
+    // }).addTo(map);
     
+    // most similar to apple maps
+    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    //     attribution: 'Tiles &copy; Esri'
+    // }).addTo(map);
+
+    // recent changes
+    
+    // L.tileLayer('https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.png?key=MKNKQkpRAxnJyNL1oMtY', {
+    //     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a>'
+    // }).addTo(map);
+
+    const baseLayers = {
+    "Google Maps": L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+         subdomains: ['mt0','mt1','mt2','mt3'],
+        attribution: '© Google Maps',
+    }),
+    "Esri World Street": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri'
+    })
+};
+
+// Add layer control
+L.control.layers(baseLayers).addTo(map);
+
+// Set default
+baseLayers["Google Maps"].addTo(map);
+    
+
+
     // Add current location marker
     currentLocationMarker = L.marker([defaultLocation.lat, defaultLocation.lng], {
         icon: L.divIcon({
