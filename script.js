@@ -639,21 +639,26 @@ function initializeLanguageSelector() {
 
 // Enhanced onLocationSelected function with translation support
 function onLocationSelectedWithTranslation(locationId) {
-    // const physicalLocations = resolveLocation(locationId);
     const location = locations[locationId];
     const lang = currentLanguage;
+    const direction = lang === 'ar' ? 'rtl' : 'ltr';
+    const textAlign = lang === 'ar' ? 'right' : 'left';
+
     console.log(locationId);
+
     // Get translated location name and description
     const locationName = translations[lang][locationId] || location.name;
     const locationDesc = translations[lang][locationId + '_desc'] || location.description || translations[lang].no_description || 'No description available';
+
     let infoHTML = `
-        <div class="location-details">
+        <div class="location-details" style="direction: ${direction}; text-align: ${textAlign};">
             <div class="location-header">
                 <span class="location-icon">${location.icon}</span>
                 <h2>${locationName}</h2>
             </div>
             <p class="location-description">${locationDesc}</p>
     `;
+
     // Add phone number if available
     if (location.phone) {
         infoHTML += `
@@ -663,37 +668,39 @@ function onLocationSelectedWithTranslation(locationId) {
             </div>
         `;
     }
+
     // Add facilities if available
     if (location.facilities && location.facilities.length > 0) {
         if (lang === 'en') {
-        infoHTML += `
-            <div class="location-section">
-                <h4>${translations[lang].facilities}:</h4>
-                <ul class="facilities-list">
-                    ${location.facilities.map(facility => `<li>${facility}</li>`).join('')}
-                </ul>
-            </div>
-        `;
+            infoHTML += `
+                <div class="location-section">
+                    <h4>${translations[lang].facilities}:</h4>
+                    <ul class="facilities-list">
+                        ${location.facilities.map(facility => `<li>${facility}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
         } else if (lang === 'fr' && location.facilitiesFr) {
             infoHTML += `
-            <div class="location-section">
-                <h4>${translations[lang].facilities}:</h4>
-                <ul class="facilities-list">
-                    ${location.facilitiesFr.map(facility => `<li>${facility}</li>`).join('')}
-                </ul>
-            </div>
-        `;
+                <div class="location-section">
+                    <h4>${translations[lang].facilities}:</h4>
+                    <ul class="facilities-list">
+                        ${location.facilitiesFr.map(facility => `<li>${facility}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
         } else if (lang === 'ar' && location.facilitiesAr) {
             infoHTML += `
-            <div class="location-section">
-                <h4>${translations[lang].facilities}:</h4>
-                <ul class="facilities-list">
-                    ${location.facilitiesAr.map(facility => `<li style="margin-left: 10px;">${facility}</li>`).join('')}
-                </ul>
-            </div>
-        `;}
+                <div class="location-section">
+                    <h4>${translations[lang].facilities}:</h4>
+                    <ul class="facilities-list">
+                        ${location.facilitiesAr.map(facility => `<li>${facility}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
     }
-    
+
     // Add hours if available
     if (location.hours) {
         infoHTML += `
@@ -703,7 +710,7 @@ function onLocationSelectedWithTranslation(locationId) {
             </div>
         `;
     }
-    
+
     // Add capacity if available
     if (location.capacity) {
         infoHTML += `
@@ -713,7 +720,7 @@ function onLocationSelectedWithTranslation(locationId) {
             </div>
         `;
     }
-    
+
     // Add children locations if this is a parent area
     if (location.children && location.children.length > 0) {
         infoHTML += `
@@ -732,7 +739,7 @@ function onLocationSelectedWithTranslation(locationId) {
             </div>
         `;
     }
-    
+
     // Show parent relationship if this is a child location
     if (location.parent) {
         const parent = locations[location.parent];
@@ -747,12 +754,11 @@ function onLocationSelectedWithTranslation(locationId) {
             </div>
         `;
     }
-    
+
     infoHTML += '</div>';
-    
+
     document.getElementById('location-info').innerHTML = infoHTML;
-    
-    // Add event listener for children dropdown if it exists
+
     const childrenSelect = document.getElementById('children-select');
     if (childrenSelect) {
         childrenSelect.addEventListener('change', function() {
@@ -762,9 +768,10 @@ function onLocationSelectedWithTranslation(locationId) {
             }
         });
     }
+
     document.getElementById('location-search').value = "";
     document.getElementById('location-select').value = "";
-    // Update path and highlights
+
     highlightLocation(locationId);
     updateMapWithPath(locationId);
     generateQRCode(locationId);
