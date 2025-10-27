@@ -40,7 +40,8 @@ initMap(locationId);
 function onLocationSelected(locationId) {
     // Resolve to actual physical locations
     const physicalLocations = resolveLocation(locationId);
-    
+    console.log(physicalLocations);
+    console.log(locationId);
     // Get the selected location data
     const location = locations[locationId];
     
@@ -137,7 +138,7 @@ function onLocationSelected(locationId) {
         childrenSelect.addEventListener('change', function() {
             if (this.value) {
                 onLocationSelected(this.value);
-                map.flyTo([locations[this.value].lat, locations[this.value].lng], 19);
+                map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
             }
         });
     }
@@ -454,16 +455,19 @@ function translatePage(language) {
     updatePictureView(language);
     // Re-generate location info if a location is selected
     const locationSelect = document.getElementById('location-select');
+                                                                            console.log(locationSelect.value);
     if (locationSelect.value) {
+                                                                            console.log(locationSelect.value)
         onLocationSelected(locationSelect.value);
-    updateMapWithPath(locationId);
+        updateMapWithPath(locationId);
 
         // window.location.reload();
     }
     //if location info is open, retranslate it
     if (document.getElementById('location-info').innerHTML.trim() !== '') {
+                                                                            console.log(locationSelect.value)
         onLocationSelected(locationSelect.value);
-    updateMapWithPath(locationId);
+        updateMapWithPath(locationId);
 
     }
 
@@ -484,6 +488,12 @@ function updateLocationDropdown(language) {
         <option value="lc">🎓 ├─ ${translations[language].lc}</option>
         <option value="library">🎓 ├─ ${translations[language].library}</option>
         <option value="aud4">🎓 ├─ ${translations[language].aud4}</option>
+        <option value="oip">🎓 ├─ ${translations[language].oip}</option>
+        <option value="cle">🎓 ├─ ${translations[language].cle}</option>
+        <option value="fye">🎓 ├─ ${translations[language].fye}</option>
+        <option value="ee">🎓 ├─ ${translations[language].ee}</option>
+        <option value="sec">🚓 ${translations[language].sec}</option>
+        <option value="its">💻 ${translations[language].its}</option>
         <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
         <option value="gym">💪 ├─ ${translations[language].gym}</option>
         <option value="health_center">🏥 ${translations[language].health_center}</option>
@@ -491,7 +501,12 @@ function updateLocationDropdown(language) {
         <option value="building_1_p">📋 ├─ ${translations[language].building_1_p}</option>
         <option value="registrar_office">📋 ├─├─ ${translations[language].registrar_office}</option>
         <option value="building_1_v">📋 ├─ ${translations[language].building_1_v}</option>
+        <option value="sao">📋 ├─ ${translations[language].sao}</option>
+        <option value="oasp">📋 ├─ ${translations[language].oasp}</option>
         <option value="admissions">📋 ├─ ${translations[language].admissions}</option>
+        <option value="dining1">🍽️ ${translations[language].dining1}</option>
+        <option value="dining2">🍽️ ${translations[language].dining2}</option>
+        <option value="cafeteria">🍽️ ${translations[language].cafeteria}</option>
         <option value="housing_department">🏠 ${translations[language].housing_department}</option>
         <option value="aud17">🎭 ${translations[language].aud17}</option>
     `;
@@ -567,6 +582,9 @@ function updateViewToggleButton(language) {
     
     if (isMapView) {
         toggleText.textContent = translations[language].picture_view;
+        const destinationIdNew = getDestinationIdNew();
+            console.log("destinationIdNew:", destinationIdNew);
+            onLocationSelected(destinationIdNew);
         toggleIcon.textContent = '🖼️';
     } else {
         toggleText.textContent = translations[language].map_view;
@@ -603,19 +621,28 @@ function initializeLanguageSelector() {
             const selectedLanguage = this.getAttribute('data-lang');
             // Translate page
             console.log("Selected language:", selectedLanguage);
-            document.getElementById('location-info').innerHTML = "";
-            document.getElementById('qr-container').innerHTML = "";
-            
+            // document.getElementById('location-info').innerHTML = "";
+            const destinationIdNew = getDestinationIdNew();
+            console.log("destinationIdNew:", destinationIdNew);
+            onLocationSelected(destinationIdNew);
+            // document.getElementById('qr-container').innerHTML = "";
+            console.log("destinationIdNew:", getDestinationIdNew())
+
+            console.log(document.getElementById('location-info'))
             translatePage(selectedLanguage);
+
         });
+            console.log(document.getElementById('location-info'))
+
     });
 }
 
 // Enhanced onLocationSelected function with translation support
 function onLocationSelectedWithTranslation(locationId) {
-    const physicalLocations = resolveLocation(locationId);
+    // const physicalLocations = resolveLocation(locationId);
     const location = locations[locationId];
     const lang = currentLanguage;
+    console.log(locationId);
     // Get translated location name and description
     const locationName = translations[lang][locationId] || location.name;
     const locationDesc = translations[lang][locationId + '_desc'] || location.description || translations[lang].no_description || 'No description available';
@@ -731,7 +758,7 @@ function onLocationSelectedWithTranslation(locationId) {
         childrenSelect.addEventListener('change', function() {
             if (this.value) {
                 onLocationSelectedWithTranslation(this.value);
-                map.flyTo([locations[this.value].lat, locations[this.value].lng], 19);
+                map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
             }
         });
     }

@@ -4,6 +4,7 @@ let pathLayer;
 let activeMarker = null;
 let highlightCircle = null;
 let currentHighlight = null;
+let destinationIdNew = null;
 // Campus locations
 const locations = {
     
@@ -163,7 +164,6 @@ const locations = {
         description: 'Student housing services and dormitory management',
         facilities: ['Housing applications', 'Maintenance requests', 'Resident services'],
         phone: '📞0535862062',
-        hours: 'Mon-Fri: 9:00-16:00',
         children: []
     },
     // Child locations
@@ -257,9 +257,132 @@ const locations = {
         consideredAs: "auditorium",
         keywords: ["auditorium", "event", "lecture"],
         description: 'Large auditorium for events and lectures',
-        hours: 'Mon-Fri: 8:00-18:00',
         parent: 'academic_area',
         consideredAs: "academic_area",
+    },
+    sao:{//33.53918807366786, -5.106287397648516
+        name: 'Student Activities Office',
+        lat: 33.53918807366786,
+        lng: -5.106287397648516,
+        size: "medium",
+        icon: '🎉',
+        radius: 20,
+        type: 'office',
+        consideredAs: "sao",
+        keywords: ["student", "activities", "events"],
+        parent: 'administrative_area',
+        
+    },
+    
+    cafeteria:{
+        name: 'Cafeteria',
+        lat: 33.53931328854975,
+        lng: -5.106087558775112,
+        size: "medium",
+        icon: '☕',
+        radius: 10,
+        type: 'dining',
+        parent: 'administrative_area',
+        keywords: ["cafetiria", "dining", "food"],
+        consideredAs: "administrative_area",
+    },
+    dining1: {
+        name: 'Cossa',
+        lat: 33.53941151701617,
+        lng: -5.105794323528657,
+        size: "large",
+        icon: '🍽️',
+        radius: 30,
+        type: 'dining',
+        parent: 'administrative_area',
+        keywords: ["dining", "hall", "food","pizzeria"],
+        consideredAs: "administrative_area",
+    },
+    dining2: {
+        name: 'Proxirest',
+        lat: 33.540557599873544,
+        lng: -5.107889022617666,
+        size: "large",
+        icon: '🍽️',
+        radius: 20,
+        type: 'dining',
+        keywords: ["pizzeria", "food", "snacks"],
+    },
+    oasp: {
+        name: 'Office of Academic Support and Support (OASP)',
+        lat: 33.53905838242423,
+        lng: -5.106437685867577,
+        size: "medium",
+        icon: '📋',
+        radius: 10,
+        type: 'building',
+        keywords: ["oasp", "office", "student"],
+        consideredAs: "administrative_area",
+    },
+    oip: {
+        name: 'International Academic Opportunities',
+        lat: 33.53923189262284,
+        lng: -5.107866433620497,
+        size: "medium",
+        icon: '🌍',
+        radius: 10,
+        type: 'building',
+        keywords: ["oip", "office", "international"],
+        consideredAs: "academic_area",
+    },
+    cle: {
+        name: 'Center for Learning Excellence (CLE)',
+        lat: 33.537732562503166,
+        lng: -5.107925062528437,
+        size: "medium",
+        icon: '🎓',
+        radius: 10,
+        type: 'building',
+        keywords: ["cle", "center", "learning", "excellence"],
+        consideredAs: "academic_area",
+    },
+    fye: {
+        name: 'First Year Experience (FYE) Center',
+        lat: 33.53792435560582,
+        lng: -5.1079219498005175,
+        size: "medium",
+        icon: '🎓',
+        radius: 10,
+        type: 'building',
+        keywords: ["fye", "first year", "experience"],
+        consideredAs: "academic_area",
+    },
+    sec: {
+        name: 'Safety & Security', 
+        lat: 33.538816150398794, 
+        lng: -5.108588123389089,
+        size: "medium",
+        icon: '🚓', 
+        radius: 10,
+        type: 'office',
+
+    },
+    its: {
+        name: 'Information Technology Services (ITS) ', 
+        lat: 33.53871441764737, 
+        lng: -5.108501931711258,
+        size: "medium",
+        icon: '💻', 
+        radius: 10,
+        type: 'office',
+        consideredAs: "sec",
+
+    },
+    ee:{
+        name: 'Employability and Entrepreneurship', 
+        lat: 33.539075460599655, 
+        lng: -5.1075329843458,
+        size: "medium",
+        icon: '💼',
+        radius: 10,
+        type: 'office',
+        consideredAs: "academic_area",
+        keywords: ["employability", "entrepreneurship", "office"],
     }
 };
 function highlightLocation(locationId) {
@@ -346,12 +469,13 @@ L.marker(auiCoords).addTo(map)
     // }).addTo(map);
 
     const baseLayers = {
+        
+    "Esri World Street": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri'
+    }),
     "Google Maps": L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
          subdomains: ['mt0','mt1','mt2','mt3'],
         attribution: '© Google Maps',
-    }),
-    "Esri World Street": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri'
     })
 };
 
@@ -359,7 +483,7 @@ L.marker(auiCoords).addTo(map)
 L.control.layers(baseLayers).addTo(map);
 
 // Set default
-baseLayers["Google Maps"].addTo(map);
+baseLayers["Esri World Street"].addTo(map);
     
 
 
@@ -400,7 +524,7 @@ baseLayers["Google Maps"].addTo(map);
                 `,
                     iconSize: size,
                 })
-            }).addTo(map).on('click', () => onLocationSelected(id)).bindTooltip(loc.name, { onhover: true, direction: 'top' });
+            }).addTo(map).on('click', () => {console.log("Clicked marker for location ID:", id);destinationIdNew = id;onLocationSelected(id)}).bindTooltip(loc.name, { onhover: true, direction: 'top' });
             marker.on('click', function() {
                 // Remove previous highlight
                 if (highlightCircle) {
@@ -417,15 +541,16 @@ baseLayers["Google Maps"].addTo(map);
                 }).addTo(map);
                 
                 // Bring marker to front
-                marker.bringToFront();
-                marker.on('click', function() {
-                    document.getElementById('location-search').value = "";
-                    document.getElementById('location-select').value = "";
-                    highlightLocation(id); // Use centralized highlight function
-                    onLocationSelected(id);
-                });
+                // marker.bringToFront();
+                // marker.on('click', function() {
+                //     document.getElementById('location-search').value = "";
+                //     document.getElementById('location-select').value = "";
+                //     highlightLocation(id); // Use centralized highlight function
+                //     onLocationSelected(id);
+                // });
                 // Call existing selection handler
-                onLocationSelected(id);
+                
+
             });
         }
         
@@ -470,4 +595,7 @@ function updateMapWithPath(destinationId) {
     if (pathLayer) {
         map.fitBounds(pathLayer.getBounds());
     }
+}
+function getDestinationIdNew() {
+    return destinationIdNew;
 }
