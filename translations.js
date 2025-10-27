@@ -61,15 +61,14 @@ const translations = {
     // Location descriptions
     parking_1_desc: "Main parking area for visitors and students",
     academic_area_desc: "Main academic buildings and lecture halls",
+    administrative_area_desc: "Administrative offices and student services",
+    registrar_office_desc:"Student records, transcripts, and enrollment services",
     athletic_area_desc:
       "The AUI Athletics Department strives to provide students with the finest athletic experience. Student athletes who join AUI official teams can expect to gain all the benefitsthat participation in a competitive sport offers.The Fitness Center is located near the gymnasium and next to the main soccer field. The Center is more than 960 sq. ft. and is the most recent sports facility built on campus. It features a fitness room, a weight room, a cardiovascular room, table tennis room and a sports shop. The fitness center is equipped with state of the art weight and cardiovascular equipment. The AUI Athletic department proudly offers strength and resistance equipment from famous USA suppliers such as Life Fitness.",
     health_center_desc:
       "Al Akhawayn Health Center is staffed with 4 doctors, 4 nurses, a doctor and a nurse are on standby to provide medical attention 24 hours a day, 7 days a week. The health Center is in building 26, on the ground floor, offering accessible medical services during operating hours from 08:30 AM to 11:00 PM. However, medical consultations are available from 09:00am to 06:00 PM. If you require urgent medical attention or face an emergency after working hours, please get in touch either with the Hall Director by (Men-ext. 555, Women-ext. 3333) or the security by (-ext. 2222) or even the nurse on duty @ (2057). ",
-    administrative_area_desc: "Administrative offices and student services",
     housing_department_desc:
-      "The mission of AUI Housing and Residential Life Office is to provide students with a quality residential experience that supports their academic goals and personal development. Housing and Residential Life seeks to creatively stimulate students’ growth and provide a safe and enjoyable residential experience.  One advantage of on-campus housing is its convenience. Students can easily access classrooms, faculty offices, recreational facilities, computer labs, and the library. In addition to the convenience of proximity, campus accommodations include television, Internet and telephone connections, and water/ heating costs are included in the housing fees. Equally important, students become a part of the learning community and a sense of connection is established by being offered a vast range of in-doors activities by Resident Assistants (RA) such as regular movie projection/debates, music evenings, cooking sessions, games tournaments and themed parties.",
-    registrar_office_desc:
-      "Student records, transcripts, and enrollment services",
+    "The mission of AUI Housing and Residential Life Office is to provide students with a quality residential experience that supports their academic goals and personal development. Housing and Residential Life seeks to creatively stimulate students’ growth and provide a safe and enjoyable residential experience.  One advantage of on-campus housing is its convenience. Students can easily access classrooms, faculty offices, recreational facilities, computer labs, and the library. In addition to the convenience of proximity, campus accommodations include television, Internet and telephone connections, and water/ heating costs are included in the housing fees. Equally important, students become a part of the learning community and a sense of connection is established by being offered a vast range of in-doors activities by Resident Assistants (RA) such as regular movie projection/debates, music evenings, cooking sessions, games tournaments and themed parties.",
     library_desc:
       "Mohammed VI Library, the premier English language library in Morocco, provides resources and services that contribute to the achievement of the University’s goals. It provides first class student and faculty centered services and resources to enhance both the learning experience of students and the teaching and research experience of faculty. The Library provides year-round Information literacy workshops, one-on-one trainings and course guides for students and faculty to further learning and teaching. It engages its stakeholders through Faculty Outreach Initiatives to build collections that serve the community’s teaching and research needs.",
     gym_desc:
@@ -177,21 +176,11 @@ const translations = {
     parking_1_desc:
       "Zone de stationnement principale pour visiteurs et étudiants",
     academic_area_desc: "Bâtiments académiques principaux et amphithéâtres",
-    athletic_area_desc: "Installations sportives et zones récréatives",
-    health_center_desc:
-      "Services médicaux et soutien santé pour étudiants et personnel",
+
     administrative_area_desc: "Bureaux administratifs et services étudiants",
-    housing_department_desc:
-      "Services de logement étudiant et gestion des dortoirs",
+    
     registrar_office_desc:
       "Dossiers étudiants, relevés de notes et services d'inscription",
-    library_desc: "Bibliothèque avec collection étendue et espaces d'étude",
-    lecture_hall_a_desc: "Grand amphithéâtre pour cours majeurs et événements",
-    gym_desc: "Centre de fitness moderne avec équipements et cours",
-    admissions_desc: "Bureau des admissions et services aux étudiants",
-    sse_desc: "Doyen de SSE : Dr. Salah Al-Majeed",
-    sba_desc: "Doyen de SBA : Dr. Lakshmi Goel",
-    shass_desc: "Doyen de SHASS : Dr. Asma Abbas",
     aud4_desc: "Grand amphithéâtre pour cours majeurs et événements",
     aud17_desc: "Grand amphithéâtre pour cours majeurs et événements",
     building_1_p_desc:
@@ -222,7 +211,25 @@ const translations = {
       "Nous accordons une grande importance aux langues en exigeant une compétence en anglais, français et arabe (enseigné à l'École des Humanités et des Sciences Sociales) pour l'obtention du diplôme. C'est pourquoi nous cherchons à équiper les étudiants éligibles avec les compétences linguistiques nécessaires à la réussite de leurs études académiques en utilisant des matériaux qui favorisent la sensibilisation multiculturelle mondiale et fournissent des programmes de formation linguistique sur mesure pour la communauté AUI et d'autres clients.",
     ee_desc:
       "L'Université Al Akhawayn adopte une approche unique pour préparer les étudiants à des carrières réussies en les intégrant dans le monde du travail dès le premier semestre. Grâce à des partenariats avec de grandes entreprises, les étudiants acquièrent une précieuse expérience du monde réel et établissent des connexions importantes qui les préparent au succès après l'obtention de leur diplôme. De plus, notre incubateur de startups de classe mondiale, développé en collaboration avec des partenaires locaux et internationaux prestigieux, fournit aux étudiants les ressources et le soutien dont ils ont besoin pour créer leurs propres entreprises tout en étudiant. Cette approche innovante de l'éducation distingue les diplômés d'Al Akhawayn de la concurrence, en les équipant des compétences et des expériences dont ils ont besoin pour réussir dans un marché du travail mondial en évolution rapide.",
-  },
+   athletic_area_desc: "Le département d’athlétisme de l’AUI s’efforce d’offrir aux étudiants la meilleure expérience sportive possible.Les étudiants-athlètes qui rejoignent les équipes officielles de l’AUI peuvent bénéficier de tous les avantages  qu’offre la participation à un sport compétitif. Le centre de fitness est situé près du gymnase et à côté du  terrain de football principal. Il couvre une superficie de plus de 90 m² et constitue l’installation sportive la  plus récente du campus. Il comprend une salle de fitness, une salle de musculation, une salle cardiovasculaire,  une salle de tennis de table ainsi qu’une boutique sportive. Le centre est équipé d’appareils de musculation  et cardiovasculaires de dernière génération. Le département d’athlétisme de l’AUI est fier de proposer des  équipements de résistance et de force provenant de fournisseurs renommés tels que Life Fitness (USA).",
+  health_center_desc:
+      "Le Centre de santé d’Al Akhawayn est composé de 4 médecins et 4 infirmiers. Un médecin et une infirmière sont  disponibles 24h/24 et 7j/7 pour fournir une assistance médicale. Le Centre de santé est situé au bâtiment 26,  au rez-de-chaussée, et propose des services médicaux accessibles de 08h30 à 23h00. Toutefois, les consultations  médicales sont disponibles de 09h00 à 18h00. En cas d’urgence en dehors des heures de travail, veuillez contacter  le directeur de résidence (Hommes-ext. 555, Femmes-ext. 3333), la sécurité (ext. 2222) ou l’infirmier(e) de  garde au 2057.",
+    housing_department_desc:
+    " La mission du bureau du logement et de la vie résidentielle de l’AUI est d’offrir aux étudiants une expérience  résidentielle de qualité qui soutient leurs objectifs académiques et leur développement personnel. Le logement  sur le campus offre un accès facile aux salles de classe, bureaux des professeurs, installations de loisirs,  laboratoires informatiques et bibliothèque. Les chambres incluent des connexions pour la télévision, Internet  et téléphone, et les frais d’eau et de chauffage sont inclus. Les étudiants rejoignent une communauté  d’apprentissage dynamique avec des activités organisées par les assistants de résidence (RA), telles que  projections de films, soirées musicales, ateliers de cuisine, tournois de jeux et fêtes à thème.",
+    library_desc:
+      "La Bibliothèque Mohammed VI, première bibliothèque anglophone du Maroc, fournit des ressources et services  contribuant à la réalisation des objectifs de l’Université. Elle propose des services centrés sur les étudiants  et les enseignants afin d’enrichir l’apprentissage, l’enseignement et la recherche. Tout au long de l’année,  elle organise des ateliers de maîtrise de l’information, des formations individuelles et des guides de cours.  Elle collabore avec le corps enseignant pour développer des collections répondant aux besoins académiques  et de recherche de la communauté.",
+    gym_desc:
+      "Le département d’athlétisme de l’AUI s’efforce d’offrir aux étudiants la meilleure expérience sportive possible.  Les étudiants-athlètes qui rejoignent les équipes officielles peuvent profiter de tous les avantages liés à  la participation à un sport compétitif. Le centre de fitness, situé près du gymnase et adjacent au terrain de  football principal, couvre plus de 90 m². Il comprend une salle de fitness, une salle de musculation, une  salle cardiovasculaire, une salle de tennis de table et une boutique sportive. Il est équipé d’appareils  modernes provenant de fournisseurs américains réputés tels que Life Fitness",
+    admissions_desc:
+      " La concurrence pour intégrer l’AUI est élevée, et seuls les lycéens et titulaires de licence ayant un excellent  dossier académique sont admis. Nous informons les étudiants et leurs parents sur les conditions d’admission,  l’aide financière et les opportunités d’études à l’AUI. Notre mission inclut également le recrutement d’un  corps étudiant diversifié ainsi que le traitement et l’évaluation des candidatures, avec une réponse d’admission  en juillet pour le semestre d’automne et en décembre pour celui du printemps. L’acceptation est conditionnée  par le maintien du niveau académique initial. Les nouveaux étudiants, les transferts et les visiteurs peuvent  commencer le processus d’admission via le formulaire en ligne de l’AUI.",
+    sse_desc:
+      "Nous offrons une éducation de classe mondiale qui vous prépare à réussir dans votre carrière, où qu’elle vous  mène. À votre sortie de l’AUI, vous serez capable de travailler en trois langues : anglais, français et arabe.  Les étudiants interagissent étroitement avec un corps professoral expérimenté dans la recherche et à l’échelle  internationale. Grâce aux petites classes, aux projets multiples et à l’accent mis sur la communication, vous  deviendrez techniquement compétent, socialement responsable et doté d’une éthique professionnelle et d’un esprit  entrepreneurial adaptés aux leaders de demain. Un diplôme de la SSE vous prépare aussi bien aux études  supérieures qu’à la pratique professionnelle.",
+    sba_desc:
+      "La SBA propose des programmes conçus pour vous préparer à un environnement commercial global, en constante  évolution et hautement compétitif. Ils vous offrent les connaissances, l’expertise et les compétences essentielles  du XXIe siècle pour réussir dans le monde professionnel. Nos programmes sont soutenus par des enseignants talentueux  et passionnés, experts dans leurs disciplines et dédiés à l’apprentissage des étudiants.",
+    shass_desc:
+      "La School of Social Sciences, Arts, and Humanities offre à tous les étudiants de l’AUI une base en arts libéraux,  ancrée dans les valeurs, la culture, l’histoire et les aspirations futures du Maroc et de la région. En plus du  programme d’éducation générale, elle propose plusieurs majeures et mineures en sciences humaines et sociales  appliquées, où les étudiants apprennent à construire, connecter et diriger un monde meilleur.",
+    
+    },
   ar: {
     app_title: "دليل الحرم الجامعي",
     select_location: "اختر موقعاً",
@@ -285,19 +292,18 @@ const translations = {
     // Location descriptions
     parking_1_desc: "منطقة الوقوف الرئيسية للزوار والطلاب",
     academic_area_desc: "المباني الأكاديمية الرئيسية وقاعات المحاضرات",
-    athletic_area_desc: "المرافق الرياضية والمناطق الترفيهية",
-    health_center_desc: "الخدمات الطبية والدعم الصحي للطلاب والموظفين",
+    athletic_area_desc: "يسعى قسم الرياضة في جامعة الأخوين إلى توفير أفضل تجربة رياضية للطلاب. يمكن للطلاب الرياضيين المنضمين إلى  الفرق الرسمية للجامعة الاستفادة من جميع المزايا التي تقدمها الرياضات التنافسية. يقع مركز اللياقة البدنية  بالقرب من القاعة الرياضية وبجوار الملعب الرئيسي لكرة القدم، وتبلغ مساحته أكثر من 90 مترًا مربعًا، وهو أحدث  مرفق رياضي في الحرم الجامعي. يضم المركز قاعة للياقة، وقاعة للتمارين البدنية، وقاعة للقلب والأوعية الدموي ية،  وقاعة لتنس الطاولة، بالإضافة إلى متجر رياضي. ويتميز المركز بمعدات حديثة ومتطورة مستوردة من شركات أمريكية  معروفة مثل Life Fitness.",
+    health_center_desc: "يضم مركز الصحة بجامعة الأخوين أربعة أطباء وأربع ممرضات، مع تواجد طبيب وممرضة في حالة جاهزية لتقديم  الرعاية الطبية على مدار الساعة وطوال أيام الأسبوع. يقع المركز في المبنى 26 بالطابق الأرضي، ويوفر خدمات  طبية من الساعة 08:30 صباحًا حتى 11:00 مساءً، بينما تتوفر الاس ستشارات الطبية من الساعة 09:00 صباحًا حتى  06:00 مساءً. في حالات الطوارئ خارج أوقات العمل، يرجى التواصل مع مدير السكن (للرجال - تحويلة 555،  للنساء - تحويلة 3 3333)، أو الأمن (تحويلة 2222)، أو الممرض المناوب على الرقم 2057.",
     administrative_area_desc: "المكاتب الإدارية وخدمات الطلاب",
-    housing_department_desc: "خدمات الإسكان الطلابي وإدارة المساكن",
+    housing_department_desc: "تتمثل مهمة مكتب السكن والحياة الطلابية بجامعة الأخوين في توفير تجربة سكنية عالية الجودة تدعم الأهداف  الأكاديمية للطلاب وتنمّي قدراتهم الشخصية. يسعى المكتب إلى تعزيز نمو الطلاب من خلال بيئة سكنية آمنة وممتعة.  من أبرز مزايا السكن داخل الحرم الجامعي سهولة الوصول إلىى القاعات الدراسية، مكاتب الأساتذة، المرافق الترفيهية،  مختبرات الحاسوب والمكتبة. كما تشمل الإقامة الجامعية خدمات التلفاز، الإنترنت، والهاتف، وتكون تكاليف الماء  والتدفئة مشمولة ضمن رسوم السكن. بالإضافة إلى ذلك، يصبح الطلاب جزءاً من مجتمع تعلم نشط، حيث يقدم مساعدو السكن  (RA) مجموعة واسعة من الأنشطة الداخلية مثل ععروض الأفلام، الأمسيات الموسيقية، جلسات الطبخ، البطولات الترفيهية  والحفلات ذات الطابع الخاص.",
     registrar_office_desc: "سجلات الطلاب والنصوص وخدمات التسجيل",
-    library_desc: "المكتبة  مع مجموعة واسعة ومساحات الدراسة",
-    lecture_hall_a_desc: "قاعة محاضرات كبيرة للدورات الرئيسية والفعاليات",
-    gym_desc: "مركز لياقة بدنية حديث مع المعدات والدروس",
-    admissions_desc: "مكاتب للوظائف الإدارية المختلفة",
-    sse_desc: "عميد كلية العلوم والهندسة: Dr. Salah Al-Majeed.  ",
-    sba_desc: "عميدة كلية إدارة الأعمال: Dr. Lakshmi Goel.  ",
+    library_desc: "  تعد مكتبة محمد السادس، أول مكتبة باللغة الإنجليزية في المغرب، مصدراً أساسياً يدعم تحقيق أهداف الجامعة من  خل لال توفير الموارد والخدمات التي تعزز تجربة التعلم لدى الطلاب والبحث والتعليم لدى الأساتذة. تقدم المكتبة  خدمات متميزة تركز على الطالب والأستاذ، وتوفر ورشات في الثقافة المعلوماتية طوال العام، إضافة إلى تدريبات  فردية وأدلة مساقات. كما تعمل على بناء مجموعات معرفية بالتعاون مع أعضاء هيئة التدريس لتلبية احتياجات التدريس  والبحث في المجتمع الجامعي.",
+    gym_desc: "يسعى قسم الرياضة في جامعة الأخوين إلى توفير أفضل تجربة رياضية للطلاب. يمكن للطلاب الرياضيين المنضمين إلى  الفرق الرسمية للجامعة الاستفادة من جميع المزايا التي تقدمها الرياضات التنافسية. يقع مركز اللياقة البدنية  بالقرب من القاعة الرياضية وبجوار الملعب الرئيسي لكرة القدم، وتبلغ مساحته أكثر من 90 مترًا مربعًا، ويُعد  أحدث مرفق رياضي في الحرم الجامعي. يضم المركز قاعة للياقة البدنية، وقاعة للتمارين، وقاعة للقلب والأوعية  ا  الدموية، وقاعة لتنس الطاولة، بالإضافة إلى متجر رياضي. وهو مجهز بأحدث المعدات من موردين أمريكيين معروفين  مثل Life Fitness.",
+    admissions_desc: "يشهد القبول في جامعة الأخوين منافسة عالية، ولذلك يُقبل فقط الطلاب الحاصلون على نتائج أكاديمية متميزة من  الممرحلة الثانوية أو الحاصلون على شهادة البكالوريوس. نقوم بإعلام الطلاب وأولياء أمورهم بمتطلبات القبول،  والمساعدات المالية، والفرص التعليمية المتاحة. كما نعمل على استقطاب طلاب من خلفيات متنوعة، ومعالجة وتقييم  الطلبات وإعلام المتقدمين بقرار القبول في يوليو لفصل الخريف وفي ديسمبر لفصل الربيع. ويُشترط الحفاظ على  المسستوى الأكاديمي الذي تم القبول على أساسه. يمكن للطلاب الجدد والمنقولين والزائرين بدء عملية التقديم  من خلال تعبئة النموذج الإلكتروني للجامعة.",
+    sse_desc: "نقدم تعليماً عالي المستوى يؤهلك للنجاح في مسيرتك المهنية أينما كانت. عند تخرجك من جامعة الأخوين، ستكون  قادرراً على العمل بثلاث لغات: الإنجليزية، الفرنسية والعربية. يتفاعل طلابنا بشكل وثيق مع أعضاء هيئة التدريس  المتميزين بخبراتهم البحثية والدولية. ومن خلال الفصول االصغيرة وكثرة المشاريع والتركيز على مهارات التواصل،  ستصبح متمكناً تقنياً، مسؤولاً اجتماعياً، ذا أخلاق مهنية عالية وروح ريادة أعمال تتناسب مع تطلعات قادة  الم   مستقبل. كما يؤهلك الحصول على شهادة من كلية العلوم والهندسة (SSE) لمتابعة الدراسات العليا أو دخول  سوق العمل المهني.",
+    sba_desc: " تقدم كلية إدارة الأعمال (SBA) برامج مصممة لإعدادك لعالم الأعمال العالمي المتغير باستمرار والتنافسي بشكل  متزايد. تم تصميم هذه البرامج لتزويدك بالمعرفة والخبرة والمهارات الأساسية للقرن الحادي والعشرين بهدف النجاح  في الحياة المهنية. يدعم هذه البرامج أعضاء هيئة تدريس موهوبون وشغوفون بمجال الأعمال والتعليم، وهم خبراء  في تخصصاتهم ومكرسون لتطوير تعلم الطلاب.",
     shass_desc:
-      "عميدة كلية العلوم الإنسانية والفنون والعلوم الاجتماعية: Dr. Asma Abbas.  ",
+      " توفر كلية العلوم الاجتماعية والآداب والإنسانيات (SHSS) لجميع طلاب جامعة الأخوين أساسًا متينًا في الفنون  الح حرة، مرتكزًا على قيم وثقافة وتاريخ وطموحات الشعب المغربي والمنطقة. بالإضافة إلى برنامج التعليم العام،  تقدم الكلية عدة تخصصات وفرعيات في العلوم الإنسانية والااجتماعية التطبيقية، حيث يتعلم الطلاب كيفية البناء  والتواصل والقيادة من أجل عالم أفضل.",
     aud4_desc:
       "مدرج كبير يستخدم للمحاضرات الرئيسية والفعاليات والعروض التقديمية.",
     aud17_desc: "مدرج كبير للمحاضرات والفعاليات الخاصة.",
