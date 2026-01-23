@@ -45,7 +45,6 @@ const locations = {
         description: 'Dean of SSE: Dr. Salah Al-Majeed',
         facilities: [],
         parent: 'academic_area',
-        consideredAs: "academic_area",
 
     },
     sba: {
@@ -59,7 +58,6 @@ const locations = {
         description: 'Dean of SBA: Dr. Lakshmi Goel',
         facilities: [],
         parent: 'academic_area',
-        consideredAs: "academic_area",
 
     },
     shass: {
@@ -73,7 +71,6 @@ const locations = {
         description: 'Dean of SHASS: Dr. Asma Abbas',
         facilities: [],
         parent: 'academic_area',
-        consideredAs: "academic_area",
 
     },
     lc: {
@@ -86,7 +83,6 @@ const locations = {
         type: 'area',
         facilities: [],
         parent: 'academic_area',
-        consideredAs: "academic_area",
 
     },
     library: {
@@ -142,17 +138,17 @@ const locations = {
         children: []
     },
     administrative_area: {
-        name: 'Administrative Area', 
-        lat: 33.5388999805765, 
-        lng: -5.106166462676498, 
-        size: "large",
-        icon: '🏛️', 
-        radius: 50,
-        type: 'area',
-        description: 'Administrative offices and student services',
-        facilities: ['Student services', 'Admissions', 'Financial aid', 'Registrar Office'],
-        children: ['building_1_p', 'building_1_v'],
-    },
+    name: 'Administrative Area', 
+    lat: 33.538614253875565,  // Updated coordinates
+    lng: -5.105831623945916,  // Updated coordinates
+    size: "large",
+    icon: '🏛️', 
+    radius: 50,
+    type: 'area',
+    description: 'Administrative offices and student services',
+    facilities: ['Student services', 'Admissions', 'Financial aid', 'Registrar Office'],
+    children: ['building_1_p', 'building_1_v'],
+},
     housing_department: {
         name: 'Housing Department', 
         lat: 33.54230929503023, 
@@ -166,17 +162,17 @@ const locations = {
         phone: '📞0535862062',
         children: []
     },
-    // Child locations
+    
     registrar_office: {
         name: 'Registrar Office', 
         lat: 33.538585036322445, 
         lng: -5.106267986778564, 
-        size: "medium",
+        size: "small",
         icon: '📋', 
         radius: 5,
         type: 'office',
         consideredAs: "registrar_office",
-        keywords: ["registrar","office", "financial"],
+        keywords: ["registrar","office"],
         description: 'Student records, transcripts, and enrollment services',
         facilities: [],
         hours: 'Mon-Fri: 8:30-16:30',
@@ -208,9 +204,9 @@ const locations = {
         radius: 20,
         type: 'building',
         consideredAs: "administrative_area",
-        keywords: ["president",,"registrar","office", "financial","human resources"],
+        keywords: ["president",,"registrar","office", "financial","human capital"],
         description: 'Offices for various administrative functions',
-        facilities: ['Office of the President', 'Registrar office',"Financial Aid" ,'Human Resources'],
+        facilities: ['Office of the President', 'Registrar office',"Financial Aid" ,'Human Capital'],
         hours: 'Mon-Fri: 8:30-16:30',
         parent: 'administrative_area',
         children: ['registrar_office']
@@ -240,27 +236,25 @@ const locations = {
         radius: 20,
         type: 'building',
         consideredAs: "admissions",
-        keywords: ["president",,"registrar","office", "financial","human resources"],
+        keywords: ["admissions","office"],
         description: 'Offices for various administrative functions',
         
         hours: 'Mon-Fri: 8:30-16:30',
         parent: 'administrative_area',
     },
-    aud4: {//33.53901744927488, -5.107388521848436
+    aud4: {
         name: 'Auditorium 4',
         lat: 33.53901744927488,
         lng: -5.107388521848436,
         size: "medium",
-        icon: '🎓',//academic cap
+        icon: '🎓',
         radius: 30,
         type: 'auditorium',
-        consideredAs: "auditorium",
         keywords: ["auditorium", "event", "lecture"],
         description: 'Large auditorium for events and lectures',
         parent: 'academic_area',
-        consideredAs: "academic_area",
     },
-    sao:{//33.53918807366786, -5.106287397648516
+    sao:{
         name: 'Student Activities Office',
         lat: 33.53918807366786,
         lng: -5.106287397648516,
@@ -328,7 +322,7 @@ const locations = {
         radius: 10,
         type: 'building',
         keywords: ["oip", "office", "international"],
-        consideredAs: "academic_area",
+        
     },
     cle: {
         name: 'Center for Learning Excellence (CLE)',
@@ -339,7 +333,6 @@ const locations = {
         radius: 10,
         type: 'building',
         keywords: ["cle", "center", "learning", "excellence"],
-        consideredAs: "academic_area",
     },
     fye: {
         name: 'First Year Experience (FYE) Center',
@@ -350,7 +343,6 @@ const locations = {
         radius: 10,
         type: 'building',
         keywords: ["fye", "first year", "experience"],
-        consideredAs: "academic_area",
     },
     sec: {
         name: 'Safety & Security', 
@@ -381,9 +373,20 @@ const locations = {
         icon: '💼',
         radius: 10,
         type: 'office',
-        consideredAs: "academic_area",
         keywords: ["employability", "entrepreneurship", "office"],
-    }
+    },
+    finantial_aid:{//33.538506724054976, -5.106190737037273
+        name: 'Financial Aid Office', 
+        lat:  33.538506724054976,
+        lng:  -5.106190737037273,
+        size: "small",
+        icon: '💰',
+        radius: 10,
+        type: 'office',
+        keywords: ["financial", "aid", "office"],
+        consideredAs: "administrative_area",
+
+    },
 };
 function highlightLocation(locationId) {
     // Remove previous highlight
@@ -447,9 +450,7 @@ L.DomEvent.disableScrollPropagation(welcomeContainer);
 const auiCoords = [33.53849014139638, -5.111244953616295];
 
 // Create custom label
-L.marker(auiCoords).addTo(map)
-  .bindPopup("<b>Welcome to AUI</b>")
-  .openPopup();
+
 
     // Add tile layer
     // L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -526,32 +527,30 @@ baseLayers["Esri World Street"].addTo(map);
                 })
             }).addTo(map).on('click', () => {console.log("Clicked marker for location ID:", id);destinationIdNew = id;onLocationSelected(id)}).bindTooltip(loc.name, { onhover: true, direction: 'top' });
             marker.on('click', function() {
-                // Remove previous highlight
-                if (highlightCircle) {
-                    map.removeLayer(highlightCircle);
-                }
-                
-                // Add new highlight circle (aura)
-                highlightCircle = L.circle([loc.lat, loc.lng], {
-                    radius: loc.radius, // Meters (adjust as needed)
-                    color: '#ffffff', // Stroke color
-                    fillColor: '#ffffff',
-                    fillOpacity: 0.2,
-                    weight: 2
-                }).addTo(map);
-                
-                // Bring marker to front
-                // marker.bringToFront();
-                // marker.on('click', function() {
-                //     document.getElementById('location-search').value = "";
-                //     document.getElementById('location-select').value = "";
-                //     highlightLocation(id); // Use centralized highlight function
-                //     onLocationSelected(id);
-                // });
-                // Call existing selection handler
-                
-
-            });
+    // Remove previous highlight
+    if (highlightCircle) {
+        map.removeLayer(highlightCircle);
+    }
+    
+    // Add new highlight circle (aura)
+    highlightCircle = L.circle([loc.lat, loc.lng], {
+        radius: loc.radius, // Meters (adjust as needed)
+        color: '#ffffff', // Stroke color
+        fillColor: '#ffffff',
+        fillOpacity: 0.2,
+        weight: 2
+    }).addTo(map);
+    
+    // Clear search and dropdown
+    document.getElementById('location-search').value = "";
+    document.getElementById('location-select').value = "";
+    
+    // Use translation-aware function
+    onLocationSelectedWithTranslation(id);
+    
+    // Update global destination ID
+    destinationIdNew = id;
+});
         }
         
     });

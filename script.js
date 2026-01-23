@@ -267,18 +267,183 @@ function selectResult(id) {
     const searchInput = document.getElementById('location-search');
     const searchResults = document.getElementById('search-results');
     
-    searchInput.value = locations[id].name;
+    searchInput.value = "";
     searchResults.style.display = 'none';
     document.getElementById('location-select').value = "";
-    document.getElementById('location-search').value = "";
-    // document.getElementById('location-select').value = "";
-    // Trigger highlight and selection
-    highlightLocation(id);
-    onLocationSelected(id);
     
-    // Optional: Center map on the location
-    map.flyTo([locations[id].lat, locations[id].lng], 18);
+    // Trigger the location selection with translation support
+    handleLocationSelection(id);
 }
+
+
+
+
+
+
+
+
+
+// Create a unified function for handling location selection
+function handleLocationSelection(locationId) {
+    // Get the location data
+    const location = locations[locationId];
+    if (!location) return;
+    
+    // Get current language
+    const lang = currentLanguage;
+    const direction = lang === 'ar' ? 'rtl' : 'ltr';
+    const textAlign = lang === 'ar' ? 'right' : 'left';
+    
+    // Get translated text
+    const locationName = translations[lang][locationId] || location.name;
+    const locationDesc = translations[lang][locationId + '_desc'] || location.description || translations[lang].no_description || 'No description available';
+    
+    // Build the HTML with translation support
+    let infoHTML = `
+        <div class="location-details" style="direction: ${direction}; text-align: ${textAlign};">
+            <div class="location-header">
+                <span class="location-icon">${location.icon}</span>
+                <h2>${locationName}</h2>
+            </div>
+            <p class="location-description">${locationDesc}</p>
+    `;
+    
+    // Add phone number if available
+    if (location.phone) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].phone}:</h4>
+                <p class="location-phone">${location.phone}</p>
+            </div>
+        `;
+    }
+    
+    // Add facilities with translation support
+    if (location.facilities && location.facilities.length > 0) {
+        let facilitiesList = location.facilities;
+        if (lang === 'fr' && location.facilitiesFr) {
+            facilitiesList = location.facilitiesFr;
+        } else if (lang === 'ar' && location.facilitiesAr) {
+            facilitiesList = location.facilitiesAr;
+        }
+        
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].facilities}:</h4>
+                <ul class="facilities-list">
+                    ${facilitiesList.map(facility => `<li>${facility}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Add hours if available
+    if (location.hours) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].hours}:</h4>
+                <p class="location-hours">${location.hours}</p>
+            </div>
+        `;
+    }
+    
+    // Add capacity if available
+    if (location.capacity) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].capacity}:</h4>
+                <p class="location-capacity">${location.capacity}</p>
+            </div>
+        `;
+    }
+    
+    // Add children locations if this is a parent area
+    if (location.children && location.children.length > 0) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].buildings_offices}:</h4>
+                <div class="children-dropdown">
+                    <select id="children-select" class="children-select">
+                        <option value="" disabled selected>${translations[lang].select_building}</option>
+                        ${location.children.map(childId => {
+                            const child = locations[childId];
+                            const childName = translations[lang][childId] || child.name;
+                            return child ? `<option value="${childId}">${childName}</option>` : '';
+                        }).join('')}
+                    </select>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Show parent relationship if this is a child location
+    if (location.parent) {
+        const parent = locations[location.parent];
+        const parentName = translations[lang][location.parent] || parent.name;
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].part_of}:</h4>
+                <p class="parent-location">
+                    <span class="parent-icon">${parent.icon}</span>
+                    ${parentName}
+                </p>
+            </div>
+        `;
+    }
+    
+    infoHTML += '</div>';
+    
+    // Update the info display
+    document.getElementById('location-info').innerHTML = infoHTML;
+    
+    // Add event listener for children dropdown
+    const childrenSelect = document.getElementById('children-select');
+    if (childrenSelect) {
+        childrenSelect.addEventListener('change', function() {
+            if (this.value) {
+                handleLocationSelection(this.value);
+                if (map) map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
+            }
+        });
+    }
+    
+    // Update map highlights and path
+    highlightLocation(locationId);
+    updateMapWithPath(locationId);
+    generateQRCode(locationId);
+    
+    // Store the current destination
+    if (typeof destinationIdNew !== 'undefined') {
+        destinationIdNew = locationId;
+    }
+}
+
+// Replace the dropdown event listener to use the unified function
+document.addEventListener('DOMContentLoaded', () => {
+    // Update dropdown change handler
+    document.getElementById('location-select').addEventListener('change', function() {
+        if (this.value) {
+            document.getElementById('location-search').value = "";
+            handleLocationSelection(this.value);
+            
+            if (map) {
+                map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
+            }
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
     function previewResult(id) {
         highlightZone(id); // Temporary highlight on hover
@@ -445,33 +610,40 @@ function translatePage(language) {
     // Update location dropdown options
     updateLocationDropdown(language);
     
-    // Update legend
-    // updateLegend(language);
-    
     // Update view toggle button
     updateViewToggleButton(language);
     
     // Update picture view content
     updatePictureView(language);
-    // Re-generate location info if a location is selected
+    
+    // Update phone numbers based on language
+    updatePhoneNumbers(language);
+    
+    // Re-translate location info if there's content
+    const locationInfo = document.getElementById('location-info');
     const locationSelect = document.getElementById('location-select');
-                                                                            console.log(locationSelect.value);
-    if (locationSelect.value) {
-                                                                            console.log(locationSelect.value)
-        onLocationSelected(locationSelect.value);
-        updateMapWithPath(locationId);
-
-        // window.location.reload();
+    
+    // Check if there's an active location selected
+    if (locationInfo && locationInfo.innerHTML.trim() !== '' && locationSelect && locationSelect.value) {
+        handleLocationSelection(locationSelect.value);
     }
-    //if location info is open, retranslate it
-    if (document.getElementById('location-info').innerHTML.trim() !== '') {
-                                                                            console.log(locationSelect.value)
-        onLocationSelected(locationSelect.value);
-        updateMapWithPath(locationId);
+}
 
+// Add phone number translation function
+function updatePhoneNumbers(language) {
+    // Phone numbers might not need translation, but you can add if needed
+    // For now, just ensure they're displayed
+    const phone1 = document.getElementById('phone1');
+    const phone2 = document.getElementById('phone2');
+    
+    if (phone1 && phone2) {
+        // You could add translations for the labels if needed
+        const securityLabel = translations[language].security_phone || 'Security Phone Number';
+        const standardLabel = translations[language].standard_phone || 'Standard Phone Number';
+        
+        phone1.previousElementSibling.textContent = securityLabel;
+        phone2.previousElementSibling.textContent = standardLabel;
     }
-
-    //refresh the window
 }
 
 function updateLocationDropdown(language) {
@@ -500,6 +672,7 @@ function updateLocationDropdown(language) {
         <option value="administrative_area">🏛️ ${translations[language].administrative_area}</option>
         <option value="building_1_p">📋 ├─ ${translations[language].building_1_p}</option>
         <option value="registrar_office">📋 ├─├─ ${translations[language].registrar_office}</option>
+        <option value="finantial_aid">📋 ├─├─ ${translations[language].finantial_aid}</option>
         <option value="building_1_v">📋 ├─ ${translations[language].building_1_v}</option>
         <option value="sao">📋 ├─ ${translations[language].sao}</option>
         <option value="oasp">📋 ├─ ${translations[language].oasp}</option>
@@ -606,6 +779,7 @@ function updatePictureView(language) {
     }
 }
 
+// Replace the existing initializeLanguageSelector function in script.js
 function initializeLanguageSelector() {
     const langButtons = document.querySelectorAll('.lang-btn');
     
@@ -619,22 +793,64 @@ function initializeLanguageSelector() {
             
             // Get selected language
             const selectedLanguage = this.getAttribute('data-lang');
+            
             // Translate page
-            console.log("Selected language:", selectedLanguage);
-            // document.getElementById('location-info').innerHTML = "";
-            const destinationIdNew = getDestinationIdNew();
-            console.log("destinationIdNew:", destinationIdNew);
-            onLocationSelected(destinationIdNew);
-            // document.getElementById('qr-container').innerHTML = "";
-            console.log("destinationIdNew:", getDestinationIdNew())
-
-            console.log(document.getElementById('location-info'))
             translatePage(selectedLanguage);
-
+            
+            // Only update location info if a location is actually selected
+            const locationSelect = document.getElementById('location-select');
+            const hasLocationSelected = locationSelect && locationSelect.value;
+            
+            if (hasLocationSelected) {
+                const destinationIdNew = getDestinationIdNew();
+                if (destinationIdNew) {
+                    onLocationSelected(destinationIdNew);
+                }
+            }
         });
-            console.log(document.getElementById('location-info'))
-
     });
+}
+
+// Also update the translatePage function to handle cases where no location is selected
+function translatePage(language) {
+    currentLanguage = language;
+    
+    // Update body class for RTL support
+    document.body.className = language === 'ar' ? 'rtl' : '';
+    
+    // Translate all elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (translations[language] && translations[language][key]) {
+            element.textContent = translations[language][key];
+        }
+    });
+    
+    // Translate placeholder text
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-translate-placeholder');
+        if (translations[language] && translations[language][key]) {
+            element.placeholder = translations[language][key];
+        }
+    });
+    
+    // Update location dropdown options
+    updateLocationDropdown(language);
+    
+    // Update view toggle button
+    updateViewToggleButton(language);
+    
+    // Update picture view content
+    updatePictureView(language);
+    
+    // Only re-translate location info if there's actually content to translate
+    const locationInfo = document.getElementById('location-info');
+    if (locationInfo && locationInfo.innerHTML.trim() !== '') {
+        const locationSelect = document.getElementById('location-select');
+        if (locationSelect && locationSelect.value) {
+            onLocationSelected(locationSelect.value);
+        }
+    }
 }
 
 // Enhanced onLocationSelected function with translation support
