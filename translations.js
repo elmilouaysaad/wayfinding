@@ -114,7 +114,7 @@ const translations = {
     ee_desc:
       "Al Akhawayn University takes a unique approach to preparing students for successful careers by integrating them into the workforce from the first semester. Through partnerships with major corporate firms, students gain valuable real-world experience and make important connections that set them up for success after graduation. In addition, our world-class startup incubator, developed in collaboration with prestigious local and international partners, provides students with the resources and support they need to create their own companies while still studying. This innovative approach to education sets Al Akhawayn graduates apart from the competition, equipping them with the skills and experiences they need to succeed in a rapidly changing global job market.",
     finantial_aid_desc:
-      "The Financial Aid Office at Al Akhawayn University is dedicated to assisting students in navigating the financial aspects of their education. Our mission is to provide comprehensive support and guidance to ensure that all students have access to the resources they need to succeed academically. We offer a variety of financial aid options, including scholarships, grants, and work-study opportunities, tailored to meet the diverse needs of our student body. Our team is committed to helping students understand their financial aid packages, manage their budgets, and explore additional funding opportunities. We believe that financial barriers should not hinder academic achievement, and we strive to create an inclusive environment where every student can thrive.",
+      "The Financial Aid Office at Al Akhawayn University is dedicated to assisting students in navigating the financial aspects of their education. Our mission is to provide comprehensive support and guidance to ensure that all students have access to the resources they need to succeed academically.",
     },
   fr: {
     app_title: "Navigateur de Campus",
@@ -233,7 +233,7 @@ const translations = {
     shass_desc:
       "La School of Social Sciences, Arts, and Humanities offre à tous les étudiants de l’AUI une base en arts libéraux,  ancrée dans les valeurs, la culture, l’histoire et les aspirations futures du Maroc et de la région. En plus du  programme d’éducation générale, elle propose plusieurs majeures et mineures en sciences humaines et sociales  appliquées, où les étudiants apprennent à construire, connecter et diriger un monde meilleur.",
     finantial_aid_desc:
-      "Le Bureau d'Aide Financière de l'Université Al Akhawayn est dédié à aider les étudiants à naviguer dans les aspects financiers de leur éducation. Notre mission est de fournir un soutien et des conseils complets pour garantir que tous les étudiants aient accès aux ressources dont ils ont besoin pour réussir académiquement. Nous offrons une variété d'options d'aide financière, y compris des bourses, des subventions et des opportunités de travail-études, adaptées aux besoins diversifiés de notre corps étudiant. Notre équipe s'engage à aider les étudiants à comprendre leurs packages d'aide financière, à gérer leurs budgets et à explorer des opportunités de financement supplémentaires. Nous croyons que les barrières financières ne devraient pas entraver la réussite académique, et nous nous efforçons de créer un environnement inclusif où chaque étudiant peut s'épanouir.",
+      " Le Bureau d'Aide Financière de l'Université Al Akhawayn est dédié à aider les étudiants à naviguer dans les aspects financiers de leur éducation. Notre mission est de fournir un soutien et des conseils complets pour garantir que tous les étudiants aient accès aux ressources dont ils ont besoin pour réussir académiquement.",
     },
   ar: {
     app_title: "دليل الحرم الجامعي",
@@ -354,7 +354,7 @@ const translations = {
       "تتبنى جامعة الأخوين نهجًا فريدًا في إعداد الطلبة لمهن ناجحة، من خلال دمجهم في سوق العمل منذ الفصل الدراسي الأول. عبر شراكات مع شركات كبرى، يكتسب الطلاب خبرة عملية ويقيمون اتصالات مهنية مهمة. كما توفر حاضنة الشركات الناشئة المتقدمة، التي تم تطويرها بالتعاون مع شركاء محليين ودوليين، موارد ودعمًا يمكّن الطلبة من تأسيس مشاريعهم الخاصة أثناء الدراسة. يمنح هذا النهج المبتكر خريجي الجامعة ميزة تنافسية قوية في سوق العمل العالمي.",
     
       finantial_aid_desc:
-      "يكرس مكتب المساعدات المالية في جامعة الأخوين جهوده لمساعدة الطلاب في التعامل مع الجوانب المالية لتعليمهم. تتمثل مهمتنا في تقديم دعم وإرشاد شامل لضمان حصول جميع الطلاب على الموارد التي يحتاجونها للنجاح الأكاديمي. نحن نوفر مجموعة متنوعة من خيارات المساعدات المالية، بما في ذلك المنح الدراسية، والمنح، وفرص العمل والدراسة، المصممة لتلبية الاحتياجات المتنوعة لطلابنا. يلتزم فريقنا بمساعدة الطلاب على فهم حزم المساعدات المالية الخاصة بهم، وإدارة ميزانياتهم، واستكشاف فرص التمويل الإضافية. نحن نؤمن بأن الحواجز المالية لا ينبغي أن تعيق النجاح الأكاديمي، ونسعى جاهدين لخلق بيئة شاملة يمكن لكل طالب أن يزدهر فيها.",
+      "يكرس مكتب المساعدات المالية في جامعة الأخوين جهوده لمساعدة الطلاب في التعامل مع الجوانب المالية لتعليمهم. تتمثل مهمتنا في تقديم دعم وإرشاد شامل لضمان حصول جميع الطلاب على الموارد التي يحتاجونها للنجاح الأكاديمية .",
     },
 };
 
