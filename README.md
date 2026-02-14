@@ -1,6 +1,12 @@
-# Campus Wayfinder
+# Al Akhawayn University Campus Wayfinder
 
-A simple static web app that shows a campus map, lets users search/select locations, draws walking paths, and generates QR codes for Google Maps navigation. It also supports English, French, and Arabic UI text.
+A web app that shows a campus map, lets users search/select locations, draws walking paths, and generates QR codes for Google Maps navigation. It also supports English, French, and Arabic UI text.
+
+## Credits
+
+Author: Saad Elmilouay
+Under supervision of: Abdelouhab Taoufiq  
+For Al Akhawayn University
 
 ## Features
 
