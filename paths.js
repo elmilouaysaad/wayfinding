@@ -1,4 +1,4 @@
-// Custom paths between locations
+// Custom paths between locations keyed as "startId-endId"
 const paths = {
   // Path from academic area to Parking 1
   "academic_area-parking_1": [
@@ -505,32 +505,7 @@ const paths = {
 };
 
 
-function getPathCoordinates(startLat, startLng, endLat, endLng) {
-  // Check if we have a predefined path
-  const pathKey = Object.keys(paths).find((key) => {
-    const [from, to] = key.split("-");
-    return (
-      (locations[from].lat === startLat &&
-        locations[from].lng === startLng &&
-        locations[to].lat === endLat &&
-        locations[to].lng === endLng) ||
-      (locations[to].lat === startLat &&
-        locations[to].lng === startLng &&
-        locations[from].lat === endLat &&
-        locations[from].lng === endLng)
-    );
-  });
-
-  if (pathKey) {
-    return paths[pathKey];
-  }
-
-  // Default straight line if no predefined path
-  return [
-    [startLat, startLng],
-    [endLat, endLng],
-  ];
-}
+// Return a predefined path when available, otherwise fall back to a straight line
 function getPathCoordinates(startLat, startLng, endLat, endLng) {
   // Check if we have a predefined path
   const pathKey = Object.keys(paths).find((key) => {

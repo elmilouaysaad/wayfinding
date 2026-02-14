@@ -1,7 +1,7 @@
 function generateQRCode(destinationId) {
     const destination = locations[destinationId];
 
-    // Create navigation URL with both current location and destination
+    // Build a Google Maps walking directions URL for the destination
     const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination.lat},${destination.lng}&travelmode=walking`;
 
     

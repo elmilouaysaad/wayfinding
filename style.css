@@ -44,15 +44,6 @@ body {
     margin: 20px 0;
 }
 
-#qr-container {
-    margin-top: 20px;
-    text-align: center;
-    padding: 15px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
 .location-marker {
     background-color: #2c3e50;
     border-radius: 50%;
@@ -128,6 +119,7 @@ body {
     font-size: 16px;
 }
 
+/* Overlayed results panel under the search input */
 .search-results {
     position: absolute;
     width: 100%;

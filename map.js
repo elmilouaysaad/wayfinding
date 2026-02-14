@@ -1,10 +1,12 @@
 let map;
 let currentLocationMarker;
 let pathLayer;
-let activeMarker = null;
 let highlightCircle = null;
 let currentHighlight = null;
+let previewHighlight = null;
 let destinationIdNew = null;
+// Shared map state and highlight layers
+
 // Campus locations
 const locations = {
     
@@ -204,7 +206,7 @@ const locations = {
         radius: 20,
         type: 'building',
         consideredAs: "administrative_area",
-        keywords: ["president",,"registrar","office", "financial","human capital"],
+        keywords: ["president", "registrar", "office", "financial", "human capital"],
         description: 'Offices for various administrative functions',
         facilities: ['Office of the President', 'Registrar office',"Financial Aid" ,'Human Capital'],
         hours: 'Mon-Fri: 8:30-16:30',
@@ -388,6 +390,7 @@ const locations = {
 
     },
 };
+// Primary selection highlight used for the active destination
 function highlightLocation(locationId) {
     // Remove previous highlight
     if (currentHighlight) {
@@ -407,8 +410,35 @@ function highlightLocation(locationId) {
         fillColor: '#ffffff',
         fillOpacity: 0.2,
         weight: 2
-    }).addTo(map);}
+    }).addTo(map);
+}
 
+// Lightweight hover preview so search results can "peek" on the map
+function previewLocation(locationId) {
+    if (previewHighlight) {
+        map.removeLayer(previewHighlight);
+    }
+
+    const loc = locations[locationId];
+    if (!loc) return;
+
+    previewHighlight = L.circle([loc.lat, loc.lng], {
+        radius: (loc.radius || 40) * 0.8,
+        color: '#3498db',
+        fillColor: '#3498db',
+        fillOpacity: 0.15,
+        weight: 2
+    }).addTo(map);
+}
+
+function clearPreviewLocation() {
+    if (previewHighlight) {
+        map.removeLayer(previewHighlight);
+        previewHighlight = null;
+    }
+}
+
+// Map virtual/alias locations to the physical ids used for routing
 function resolveLocation(locationId) {
     const location = locations[locationId];
     
@@ -469,6 +499,7 @@ const auiCoords = [33.53849014139638, -5.111244953616295];
     //     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a>'
     // }).addTo(map);
 
+    // Base map tiles users can switch between
     const baseLayers = {
         
     "Esri World Street": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -497,7 +528,7 @@ baseLayers["Esri World Street"].addTo(map);
         })
     }).addTo(map);
     
-    // Add all location markers
+    // Add all location markers (skip the current location marker)
     Object.entries(locations).forEach(([id, loc]) => {
         // console.log(id);
         const size = sizeMapping[loc.size] || sizeMapping.medium;
@@ -525,7 +556,7 @@ baseLayers["Esri World Street"].addTo(map);
                 `,
                     iconSize: size,
                 })
-            }).addTo(map).on('click', () => {console.log("Clicked marker for location ID:", id);destinationIdNew = id;onLocationSelected(id)}).bindTooltip(loc.name, { onhover: true, direction: 'top' });
+            }).addTo(map).bindTooltip(loc.name, { onhover: true, direction: 'top' });
             marker.on('click', function() {
     // Remove previous highlight
     if (highlightCircle) {
@@ -545,8 +576,12 @@ baseLayers["Esri World Street"].addTo(map);
     document.getElementById('location-search').value = "";
     document.getElementById('location-select').value = "";
     
-    // Use translation-aware function
-    onLocationSelectedWithTranslation(id);
+    // Use translation-aware function if it exists
+    if (typeof onLocationSelectedWithTranslation === 'function') {
+        onLocationSelectedWithTranslation(id);
+    } else if (typeof onLocationSelected === 'function') {
+        onLocationSelected(id);
+    }
     
     // Update global destination ID
     destinationIdNew = id;
@@ -562,7 +597,7 @@ baseLayers["Esri World Street"].addTo(map);
 function updateMapWithPath(destinationId) {
     const currentLocation = currentLocationMarker.getLatLng();
     
-    // Resolve both start and end locations
+    // Resolve both start and end locations (virtual ids may map to multiple points)
     const startIds = resolveLocation(urlParams.get('location') || 'administrative_area');
     const endIds = resolveLocation(destinationId);
     

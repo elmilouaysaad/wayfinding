@@ -16,7 +16,7 @@ function hideIdleScreen() {
   idleScreen.style.display = "none";
 }
 
-// Reset timer on activity
+// Reset timer on activity (any interaction keeps the kiosk awake)
 function resetIdleTimer() {
   hideIdleScreen();
   clearTimeout(idleTimeout);
@@ -45,7 +45,7 @@ function onLocationSelected(locationId) {
     // Get the selected location data
     const location = locations[locationId];
     
-    // Create detailed information display
+    // Build the details panel for the selected location
     let infoHTML = `
         <div class="location-details">
             <div class="location-header">
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedResultIndex = -1;
     let searchTimeout = null;
 
-    // Search with debounce
+    // Search with debounce to avoid excessive DOM work while typing
     searchInput.addEventListener('input', function() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
@@ -248,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
             matches.forEach(([id, loc], index) => {
                 const item = document.createElement('div');
                 item.className = 'search-result-item';
+                item.dataset.locationId = id;
                 item.innerHTML = `
                     <div class="result-name">${loc.name}</div>
                    
@@ -255,6 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 item.addEventListener('click', () => selectResult(id));
                 item.addEventListener('mouseover', () => previewResult(id));
+                item.addEventListener('mouseout', () => {
+                    if (typeof clearPreviewLocation === 'function') {
+                        clearPreviewLocation();
+                    }
+                });
                 
                 searchResults.appendChild(item);
             });
@@ -283,7 +289,7 @@ function selectResult(id) {
 
 
 
-// Create a unified function for handling location selection
+// Create a unified function for handling location selection (with translations)
 function handleLocationSelection(locationId) {
     // Get the location data
     const location = locations[locationId];
@@ -298,7 +304,7 @@ function handleLocationSelection(locationId) {
     const locationName = translations[lang][locationId] || location.name;
     const locationDesc = translations[lang][locationId + '_desc'] || location.description || translations[lang].no_description || 'No description available';
     
-    // Build the HTML with translation support
+    // Build the HTML with translation support and RTL alignment
     let infoHTML = `
         <div class="location-details" style="direction: ${direction}; text-align: ${textAlign};">
             <div class="location-header">
@@ -446,17 +452,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function previewResult(id) {
-        highlightZone(id); // Temporary highlight on hover
+        if (typeof previewLocation === 'function') {
+            previewLocation(id);
+        }
     }
 
     function updateSelectedResult(results) {
         results.forEach((r, i) => {
             r.style.backgroundColor = i === selectedResultIndex ? '#f0f8ff' : '';
-            if (i === selectedResultIndex) {
-                previewResult(Object.keys(locations)[i]);
-                r.scrollIntoView({ block: 'nearest' });
-            }
         });
+
+        if (selectedResultIndex >= 0 && results[selectedResultIndex]) {
+            const id = results[selectedResultIndex].dataset.locationId;
+            if (id) {
+                previewResult(id);
+            }
+            results[selectedResultIndex].scrollIntoView({ block: 'nearest' });
+        }
     }
 });
 
@@ -583,51 +595,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeViewToggle();
 });
 
-
-// Multi-language functionality
-function translatePage(language) {
-    currentLanguage = language;
-    
-    // Update body class for RTL support
-    document.body.className = language === 'ar' ? 'rtl' : '';
-    
-    // Translate all elements with data-translate attribute
-    document.querySelectorAll('[data-translate]').forEach(element => {
-        const key = element.getAttribute('data-translate');
-        if (translations[language] && translations[language][key]) {
-            element.textContent = translations[language][key];
-        }
-    });
-    
-    // Translate placeholder text
-    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
-        const key = element.getAttribute('data-translate-placeholder');
-        if (translations[language] && translations[language][key]) {
-            element.placeholder = translations[language][key];
-        }
-    });
-    
-    // Update location dropdown options
-    updateLocationDropdown(language);
-    
-    // Update view toggle button
-    updateViewToggleButton(language);
-    
-    // Update picture view content
-    updatePictureView(language);
-    
-    // Update phone numbers based on language
-    updatePhoneNumbers(language);
-    
-    // Re-translate location info if there's content
-    const locationInfo = document.getElementById('location-info');
-    const locationSelect = document.getElementById('location-select');
-    
-    // Check if there's an active location selected
-    if (locationInfo && locationInfo.innerHTML.trim() !== '' && locationSelect && locationSelect.value) {
-        handleLocationSelection(locationSelect.value);
-    }
-}
 
 // Add phone number translation function
 function updatePhoneNumbers(language) {
@@ -842,6 +809,9 @@ function translatePage(language) {
     
     // Update picture view content
     updatePictureView(language);
+
+    // Update phone numbers based on language
+    updatePhoneNumbers(language);
     
     // Only re-translate location info if there's actually content to translate
     const locationInfo = document.getElementById('location-info');
