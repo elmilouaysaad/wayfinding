@@ -4,9 +4,9 @@ A web app that shows a campus map, lets users search/select locations, draws wal
 
 ## Credits
 
-Author: Saad Elmilouay
-Under supervision of: Abdelouhab Taoufiq  
-For Al Akhawayn University
+- Author: Saad Elmilouay
+- Under supervision of: Abdelouhab Taoufiq  
+- For Al Akhawayn University
 
 ## Features
 
