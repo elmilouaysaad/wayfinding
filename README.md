@@ -133,6 +133,6 @@ An object keyed by language code (en, fr, ar). Each language has:
 
 ## Credits
 
-- Author: Saad Elmilouay
-- Under supervision of: Abdelouhab Taoufiq  
+- Author: Mr Saad Elmilouay
+- Under supervision of: Mr Abdelouhab Taoufiq  
 - For Al Akhawayn University
