@@ -141,8 +141,8 @@ const locations = {
     },
     administrative_area: {
     name: 'Administrative Area', 
-    lat: 33.538614253875565,  // Updated coordinates
-    lng: -5.105831623945916,  // Updated coordinates
+    lat: 33.5387334164299,  // Updated coordinates
+    lng: -5.105954561809246,  // Updated coordinates
     size: "large",
     icon: '🏛️', 
     radius: 50,
@@ -177,7 +177,7 @@ const locations = {
         keywords: ["registrar","office"],
         description: 'Student records, transcripts, and enrollment services',
         facilities: [],
-        hours: 'Mon-Fri: 8:30-16:30',
+        hours: 'Mon-Fri: 8:30-17:30',
         parent: 'building_1_p',
     },
     gym: {
@@ -209,7 +209,7 @@ const locations = {
         keywords: ["president", "registrar", "office", "financial", "human capital"],
         description: 'Offices for various administrative functions',
         facilities: ['Office of the President', 'Registrar office',"Financial Aid" ,'Human Capital'],
-        hours: 'Mon-Fri: 8:30-16:30',
+        hours: 'Mon-Fri: 8:30-17:30',
         parent: 'administrative_area',
         children: ['registrar_office']
     },
@@ -225,7 +225,7 @@ const locations = {
         keywords: ["vpaa","office", "buisiness"],
         description: 'Offices for various administrative functions',
         facilities: ['Office of the VPAA', 'Buisiness office'],
-        hours: 'Mon-Fri: 8:30-16:30',
+        hours: 'Mon-Fri: 8:30-17:30',
         parent: 'administrative_area',
         children: []
     },
@@ -241,7 +241,7 @@ const locations = {
         keywords: ["admissions","office"],
         description: 'Offices for various administrative functions',
         
-        hours: 'Mon-Fri: 8:30-16:30',
+        hours: 'Mon-Fri: 8:30-17:30',
         parent: 'administrative_area',
     },
     aud4: {
@@ -606,6 +606,37 @@ function updateMapWithPath(destinationId) {
         map.removeLayer(pathLayer);
     }
     
+    // Helper function to calculate distance between two coordinates in meters
+    function getDistance(coord1, coord2) {
+        const R = 6371e3; // Earth's radius in meters
+        const lat1 = coord1[0] * Math.PI / 180;
+        const lat2 = coord2[0] * Math.PI / 180;
+        const deltaLat = (coord2[0] - coord1[0]) * Math.PI / 180;
+        const deltaLng = (coord2[1] - coord1[1]) * Math.PI / 180;
+        
+        const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                  Math.cos(lat1) * Math.cos(lat2) *
+                  Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        
+        return R * c;
+    }
+    
+    // Helper function to interpolate points at constant distance intervals
+    function interpolatePointsByDistance(coord1, coord2, distanceMeters = 10) {
+        const totalDistance = getDistance(coord1, coord2);
+        const numPoints = Math.floor(totalDistance / distanceMeters);
+        
+        const points = [];
+        for (let i = 0; i <= numPoints; i++) {
+            const ratio = i / numPoints;
+            const lat = coord1[0] + (coord2[0] - coord1[0]) * ratio;
+            const lng = coord1[1] + (coord2[1] - coord1[1]) * ratio;
+            points.push([lat, lng]);
+        }
+        return points;
+    }
+    
     // Create paths for all combinations
     startIds.forEach(startId => {
         endIds.forEach(endId => {
@@ -617,11 +648,27 @@ function updateMapWithPath(destinationId) {
                 endLoc.lat, endLoc.lng
             );
             
-            pathLayer = L.polyline(pathCoordinates, {
-                color: '#3498db',
-                weight: 5,
-                opacity: 0.7
-            }).addTo(map);
+            // Interpolate points at constant distance between each segment
+            const densePathCoordinates = [];
+            for (let i = 0; i < pathCoordinates.length - 1; i++) {
+                const segmentPoints = interpolatePointsByDistance(pathCoordinates[i], pathCoordinates[i + 1], 10);
+                densePathCoordinates.push(...segmentPoints.slice(0, -1)); // Avoid duplicating endpoint
+            }
+            densePathCoordinates.push(pathCoordinates[pathCoordinates.length - 1]); // Add final point
+            
+            // Draw path as points instead of a line
+            pathLayer = L.layerGroup();
+            densePathCoordinates.forEach((coord, index) => {
+                L.circleMarker(coord, {
+                    radius: 4,
+                    fillColor: '#3498db',
+                    color: '#2980b9',
+                    weight: 1,
+                    opacity: 0.8,
+                    fillOpacity: 0.7
+                }).addTo(pathLayer);
+            });
+            pathLayer.addTo(map);
         });
     });
     
