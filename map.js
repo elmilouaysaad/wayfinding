@@ -590,12 +590,23 @@ baseLayers["Esri World Street"].addTo(map);
         
     });
 
+    // Add zoom event listener to redraw path with updated point density
+    map.on('zoomend', function() {
+        if (destinationIdNew) {
+            updateMapWithPath(destinationIdNew, false); // false = don't fitBounds on zoom
+        }
+    });
+
 }
 
 // In map.js - Replace your existing updateMapWithPath function
 
-function updateMapWithPath(destinationId) {
+function updateMapWithPath(destinationId, shouldFitBounds = true) {
+    console.log('updateMapWithPath called with destinationId:', destinationId, 'shouldFitBounds:', shouldFitBounds);
     const currentLocation = currentLocationMarker.getLatLng();
+    
+    // Store destination ID for zoom event listener
+    destinationIdNew = destinationId;
     
     // Resolve both start and end locations (virtual ids may map to multiple points)
     const startIds = resolveLocation(urlParams.get('location') || 'administrative_area');
@@ -637,6 +648,10 @@ function updateMapWithPath(destinationId) {
         return points;
     }
     
+    // Create a single pathLayer for all paths
+    pathLayer = L.layerGroup();
+    const allCoordinates = []; // Collect all coordinates for bounds calculation
+    
     // Create paths for all combinations
     startIds.forEach(startId => {
         endIds.forEach(endId => {
@@ -651,14 +666,21 @@ function updateMapWithPath(destinationId) {
             // Interpolate points at constant distance between each segment
             const densePathCoordinates = [];
             for (let i = 0; i < pathCoordinates.length - 1; i++) {
+                if(map.getZoom() <=17) {
                 const segmentPoints = interpolatePointsByDistance(pathCoordinates[i], pathCoordinates[i + 1], 10);
                 densePathCoordinates.push(...segmentPoints.slice(0, -1)); // Avoid duplicating endpoint
+                }else{
+                const segmentPoints = interpolatePointsByDistance(pathCoordinates[i], pathCoordinates[i + 1], 7);
+                densePathCoordinates.push(...segmentPoints.slice(0, -1)); // Avoid duplicating endpoint
+                
+            }
+               
             }
             densePathCoordinates.push(pathCoordinates[pathCoordinates.length - 1]); // Add final point
             
-            // Draw path as points instead of a line
-            pathLayer = L.layerGroup();
+            // Draw path as points and add to the pathLayer
             densePathCoordinates.forEach((coord, index) => {
+                allCoordinates.push(coord); // Collect for bounds
                 L.circleMarker(coord, {
                     radius: 4,
                     fillColor: '#3498db',
@@ -668,13 +690,30 @@ function updateMapWithPath(destinationId) {
                     fillOpacity: 0.7
                 }).addTo(pathLayer);
             });
-            pathLayer.addTo(map);
         });
     });
     
-    // Fit map to show all paths
-    if (pathLayer) {
-        map.fitBounds(pathLayer.getBounds());
+    // Add the pathLayer to the map once after all paths are created
+    pathLayer.addTo(map);
+    
+    // Fit map to show all paths (only on initial selection, not on zoom)
+    if (pathLayer && shouldFitBounds && allCoordinates.length > 0) {
+        console.log('shouldFitBounds is true, attempting to fit bounds');
+        const bounds = L.latLngBounds(allCoordinates);
+        console.log('Bounds:', bounds);
+        if (bounds && bounds.isValid()) {
+            map.fitBounds(bounds, {
+                padding: [50, 50],
+                animate: true,
+                duration: 0.5,
+                maxZoom: 18
+            });
+            console.log('fitBounds executed');
+        } else {
+            console.log('Bounds are invalid or empty');
+        }
+    } else {
+        console.log('shouldFitBounds is false or pathLayer is null or no coordinates');
     }
 }
 function getDestinationIdNew() {

@@ -138,7 +138,6 @@ function onLocationSelected(locationId) {
         childrenSelect.addEventListener('change', function() {
             if (this.value) {
                 onLocationSelected(this.value);
-                map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
             }
         });
     }
@@ -408,7 +407,6 @@ function handleLocationSelection(locationId) {
         childrenSelect.addEventListener('change', function() {
             if (this.value) {
                 handleLocationSelection(this.value);
-                if (map) map.flyTo([locations[this.value].lat, locations[this.value].lng], 18);
             }
         });
     }
