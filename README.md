@@ -2,11 +2,6 @@
 
 A web app that shows a campus map, lets users search/select locations, draws walking paths, and generates QR codes for Google Maps navigation. It also supports English, French, and Arabic UI text.
 
-## Credits
-
-- Author: Saad Elmilouay
-- Under supervision of: Abdelouhab Taoufiq  
-- For Al Akhawayn University
 
 ## Features
 
@@ -135,4 +130,9 @@ An object keyed by language code (en, fr, ar). Each language has:
 ## Notes
 
 - This app is static and does not require a build step.
-- For best results, use a local server if the browser blocks file access for scripts.
+
+## Credits
+
+- Author: Saad Elmilouay
+- Under supervision of: Abdelouhab Taoufiq  
+- For Al Akhawayn University
