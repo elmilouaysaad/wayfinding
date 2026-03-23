@@ -21,23 +21,12 @@ body {
     overflow-y: auto;
     box-shadow: -2px 0 10px rgba(0,0,0,0.1);
 }
-
 .location-btn {
-    display: block;
     width: 100%;
     padding: 12px;
     margin: 8px 0;
     background-color: #3498db;
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: left;
-    transition: background-color 0.2s;
-}
-
-.location-btn:hover {
-    background-color: #2980b9;
 }
 
 #location-info {
@@ -618,13 +607,34 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999; /* stay above everything */
+    overflow: hidden;
 }
 
-.idle-screen img {
-  max-width: 80%;
-  max-height: 80%;
-  object-fit: contain;
-  border-radius: 12px;
+.idle-slideshow {
+    position: absolute;
+    inset: 0;
+}
+
+.idle-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+}
+
+.idle-slide.active {
+    opacity: 1;
+}
+
+.idle-static-image {
+    display: none;
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 12px;
+    z-index: 2;
 }
 /* Welcome text overlay on the Leaflet map */
 

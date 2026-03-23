@@ -11,7 +11,7 @@ A web app that shows a campus map, lets users search/select locations, draws wal
 - Walking path overlay between current location and selected destination
 - QR code generator for walking directions
 - Language toggle (EN/FR/AR) with RTL support
-- Idle splash screen
+- Idle slideshow screen with configurable images and smooth transitions
 
 ## Quick start
 
@@ -119,6 +119,19 @@ An object keyed by language code (en, fr, ar). Each language has:
 
 - The toggle button switches between the Leaflet map and a static image.
 - Text updates based on the current language.
+
+## Idle slideshow configuration
+
+- The app enters idle mode after 30 seconds of inactivity.
+- In idle mode, a full-screen slideshow appears and crossfades between images.
+- A subtle pan/zoom animation keeps images moving while displayed.
+- Put images in the folder: idle-images/
+- No UI settings are shown in the app.
+- Auto-loading priority:
+   - If idle-images/manifest.json exists and contains an array of image names/paths, it is used.
+   - Otherwise, if your web server exposes folder listing, images are discovered automatically.
+   - Otherwise, the app probes for filenames like slide1.jpg, slide2.jpg, ... (also png/jpeg/webp/gif).
+   - If no folder images are found, the app falls back to the previous static idle image behavior.
 
 ## Troubleshooting
 

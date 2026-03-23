@@ -9,8 +9,12 @@
 </head>
 <body>
     <div id="idle-screen" class="idle-screen" style="background-color: #1A5632;">
-  <img src="auilogo1.png" alt="Welcome" />
-</div>
+        <div class="idle-slideshow" aria-hidden="true">
+            <div class="idle-slide idle-slide-a"></div>
+            <div class="idle-slide idle-slide-b"></div>
+        </div>
+        <img id="idle-static-image" class="idle-static-image" src="auilogo1.png" alt="Welcome" />
+    </div>
 
     <div id="container" class="container">
         <!-- View Toggle Button -->
@@ -64,7 +68,8 @@
                   📞 05 35 86 20 00
                 </div>
               </div>
-              
+
+
         </div>
     </div>
 

@@ -3,17 +3,189 @@ const urlParams = new URLSearchParams(window.location.search);
 const locationId = urlParams.get('location') || 'administrative_area';
 let idleTimeout;
 const idleDelay = 30000; // 30 seconds
+const idleSlideDelay = 6000;
+const idleImagesFolder = 'idle-images/';
+const idleManifestPath = `${idleImagesFolder}manifest.json`;
+const idleProbeMaxSlides = 30;
+
+const legacyIdleImage = 'auilogo1.png';
 
 const idleScreen = document.getElementById("idle-screen");
+const idleSlideA = document.querySelector('.idle-slide-a');
+const idleSlideB = document.querySelector('.idle-slide-b');
+const idleStaticImage = document.getElementById('idle-static-image');
+
+let idleImages = [];
+let idleSlideTimer = null;
+let idleCurrentImageIndex = 0;
+let idleActiveSlide = 'a';
+let useLegacyIdleMode = false;
+
+function sanitizeIdleImages(images) {
+    return images
+        .map((item) => (item || '').trim())
+        .filter(Boolean);
+}
+
+function isImagePath(path) {
+    return /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(path);
+}
+
+async function canLoadImage(path) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = path;
+    });
+}
+
+async function loadIdleImagesFromManifest() {
+    try {
+        const response = await fetch(idleManifestPath, { cache: 'no-store' });
+        if (!response.ok) return [];
+
+        const parsed = await response.json();
+        if (!Array.isArray(parsed)) return [];
+
+        const normalized = parsed.map((item) => {
+            if (!item) return '';
+            return item.startsWith('http') || item.startsWith('/') || item.startsWith('./')
+                ? item
+                : `${idleImagesFolder}${item}`;
+        });
+
+        return sanitizeIdleImages(normalized);
+    } catch (error) {
+        return [];
+    }
+}
+
+async function loadIdleImagesFromDirectoryIndex() {
+    try {
+        const response = await fetch(idleImagesFolder, { cache: 'no-store' });
+        if (!response.ok) return [];
+
+        const text = await response.text();
+        const hrefRegex = /href=["']([^"']+)["']/gi;
+        const found = [];
+        let match;
+
+        while ((match = hrefRegex.exec(text)) !== null) {
+            const href = match[1].trim();
+            if (!isImagePath(href)) continue;
+
+            const normalized = href.startsWith('http') || href.startsWith('/') || href.startsWith('./')
+                ? href
+                : `${idleImagesFolder}${href}`;
+
+            found.push(normalized);
+        }
+
+        return sanitizeIdleImages(found);
+    } catch (error) {
+        return [];
+    }
+}
+
+async function loadIdleImagesByProbe() {
+    const extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    const candidates = [];
+
+    for (let i = 1; i <= idleProbeMaxSlides; i += 1) {
+        extensions.forEach((ext) => {
+            candidates.push(`${idleImagesFolder}slide${i}.${ext}`);
+        });
+    }
+
+    const checks = await Promise.all(candidates.map((path) => canLoadImage(path)));
+    return candidates.filter((_, index) => checks[index]);
+}
+
+async function loadIdleImages() {
+    const fromManifest = await loadIdleImagesFromManifest();
+    if (fromManifest.length > 0) return fromManifest;
+
+    const fromDirectoryIndex = await loadIdleImagesFromDirectoryIndex();
+    if (fromDirectoryIndex.length > 0) return fromDirectoryIndex;
+
+    const fromProbe = await loadIdleImagesByProbe();
+    if (fromProbe.length > 0) return fromProbe;
+
+    return [];
+}
+
+function setIdleMode(isLegacyMode) {
+    useLegacyIdleMode = isLegacyMode;
+
+    if (useLegacyIdleMode) {
+        idleStaticImage.src = legacyIdleImage;
+        idleStaticImage.style.display = 'block';
+        idleSlideA.classList.remove('active');
+        idleSlideB.classList.remove('active');
+    } else {
+        idleStaticImage.style.display = 'none';
+    }
+}
+
+function applyBackgroundImage(element, imageSrc) {
+    element.style.backgroundImage = `url("${imageSrc}")`;
+}
+
+function showSlide(slideKey, imageSrc, makeVisible = true) {
+    const targetSlide = slideKey === 'a' ? idleSlideA : idleSlideB;
+    const otherSlide = slideKey === 'a' ? idleSlideB : idleSlideA;
+
+    applyBackgroundImage(targetSlide, imageSrc);
+
+    if (makeVisible) {
+        targetSlide.classList.add('active');
+        otherSlide.classList.remove('active');
+    }
+}
+
+function stepIdleSlideshow() {
+    if (idleImages.length === 0) return;
+
+    idleCurrentImageIndex = (idleCurrentImageIndex + 1) % idleImages.length;
+    idleActiveSlide = idleActiveSlide === 'a' ? 'b' : 'a';
+    showSlide(idleActiveSlide, idleImages[idleCurrentImageIndex], true);
+}
+
+function startIdleSlideshow() {
+    if (useLegacyIdleMode || idleImages.length === 0) {
+        stopIdleSlideshow();
+        return;
+    }
+
+    clearInterval(idleSlideTimer);
+
+    idleCurrentImageIndex = idleCurrentImageIndex % idleImages.length;
+    idleActiveSlide = 'a';
+    showSlide('a', idleImages[idleCurrentImageIndex], true);
+
+    if (idleImages.length > 1) {
+        const nextIndex = (idleCurrentImageIndex + 1) % idleImages.length;
+        showSlide('b', idleImages[nextIndex], false);
+        idleSlideTimer = setInterval(stepIdleSlideshow, idleSlideDelay);
+    }
+}
+
+function stopIdleSlideshow() {
+    clearInterval(idleSlideTimer);
+    idleSlideTimer = null;
+}
 
 // Show splash
 function showIdleScreen() {
+  startIdleSlideshow();
   idleScreen.style.display = "flex";
 }
 
 // Hide splash
 function hideIdleScreen() {
   idleScreen.style.display = "none";
+  stopIdleSlideshow();
 }
 
 // Reset timer on activity (any interaction keeps the kiosk awake)
@@ -22,6 +194,21 @@ function resetIdleTimer() {
   clearTimeout(idleTimeout);
   idleTimeout = setTimeout(showIdleScreen, idleDelay);
 }
+
+async function initializeIdleSlideshow() {
+    idleImages = await loadIdleImages();
+    idleCurrentImageIndex = 0;
+
+    if (idleImages.length === 0) {
+        setIdleMode(true);
+        return;
+    }
+
+    setIdleMode(false);
+    startIdleSlideshow();
+}
+
+initializeIdleSlideshow();
 
 // Events that count as "activity"
 ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(event => {
