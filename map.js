@@ -20,7 +20,7 @@ const locations = {
         radius: 50,
         type: 'parking',
         description: 'Main parking area for visitors and students',
-        
+        keywords: ['parking'],
         facilities: [],
         children: []
     },
@@ -33,6 +33,7 @@ const locations = {
         radius: 80,
         type: 'area',
         description: 'Main academic buildings and lecture halls',
+        keywords: ['academic', 'education', 'classes'],
         facilities: [],
         children: []
     },
@@ -45,6 +46,8 @@ const locations = {
         radius: 15,
         type: 'area',
         description: 'Dean of SSE: Dr. Salah Al-Majeed',
+        staff: ['BENABBOU Wijdane', 'BOULAKROUCH Abderrahim', 'BOURJILA Abdeslam', 'SABIR Najlaa', 'OU BAKALLA Rachida', 'DEHBI-ALAOUI Zineb', 'SAAD Bouchra', 'BOURI Sara', 'BOURJILA Hamza', 'EL KHABCHI Mouna', 'ZOUHEIR Morad'],
+        keywords: ['science', 'engineering', 'sse'],
         facilities: [],
         parent: 'academic_area',
 
@@ -58,6 +61,8 @@ const locations = {
         radius: 18,
         type: 'area',
         description: 'Dean of SBA: Dr. Lakshmi Goel',
+        staff: ['AZELMAD Rachida', 'BOURRAY Nouhaila', 'ET-TOUALY Mustafa', 'SOUAF Nassira', 'AOUAD Younes'],
+        keywords: ['business', 'administration', 'sba'],
         facilities: [],
         parent: 'academic_area',
 
@@ -71,6 +76,8 @@ const locations = {
         radius: 18,
         type: 'area',
         description: 'Dean of SHASS: Dr. Asma Abbas',
+        staff: ['MARZAK Meriem', 'FATTACHI Saad', 'KASSA Oussama', 'SABER Mohamed'],
+        keywords: ['humanities', 'arts', 'social sciences', 'shass'],
         facilities: [],
         parent: 'academic_area',
 
@@ -83,6 +90,8 @@ const locations = {
         icon: '🎓', 
         radius: 18,
         type: 'area',
+        staff: ['MAAZOUZ Karima', 'OUAJJOU El Mustapha'],
+        keywords: ['language', 'center', 'english', 'french', 'arabic'],
         facilities: [],
         parent: 'academic_area',
 
@@ -95,6 +104,7 @@ const locations = {
         icon: '🎓', 
         radius: 25,
         type: 'area',
+        keywords: ['library', 'books', 'study', 'research'],
         facilities: [],
         consideredAs: "library",
         parent: 'academic_area',
@@ -108,6 +118,7 @@ const locations = {
         icon: '🎭', //theater mask
         radius: 15,
         type: 'area',
+        keywords: ['auditorium', 'events', 'performances'],
         facilities: [],
 
     },
@@ -120,6 +131,7 @@ const locations = {
         radius: 50,
         type: 'area',
         description: 'Sports facilities and recreational areas',
+        keywords: ['sports', 'athletics', 'recreation'],
         facilities: ['Football field', 'Gymnasium', 'Weight room'],
         facilitiesFr: ['Terrain de Football', 'Gymnase', 'Salle de Musculation'],
         facilitiesAr: ['ملعب كرة القدم', 'صالة الألعاب الرياضية', 'غرفة الأثقال'],
@@ -134,6 +146,7 @@ const locations = {
         radius: 30,
         type: 'building',
         description: 'Medical services and health support for students and staff',
+        keywords: ['health', 'medical', 'doctor', 'nurse', 'clinic'],
         facilities: [],
         phone: '📞0535862057',
         hours: '24/7',
@@ -148,6 +161,7 @@ const locations = {
     radius: 50,
     type: 'area',
     description: 'Administrative offices and student services',
+    keywords: ['administration', 'admin', 'services'],
     facilities: ['Student services', 'Admissions', 'Financial aid', 'Registrar Office'],
     children: ['building_1_p', 'building_1_v'],
 },
@@ -160,6 +174,8 @@ const locations = {
         radius: 50,
         type: 'building',
         description: 'Student housing services and dormitory management',
+        staff: ['AZELMAD Rahma', 'CHBIHI HOSSNI Anass', 'EL AKKAOUI Mohammed', 'EL ASRI Soumia', 'EL KACHMARI Farida', 'HAJANI Mohamed', 'HATMI Younes', 'HERRAR Adnan', 'IGUEDAREN Khadija', 'MEJDOUB Fatima', 'MOUSSAOUI Najia', 'NOUAMANI Hamid', 'OUAMCHI Mounir', 'BIAA Asmae', 'OUYIDIR Abdelmounaim', 'OUZDINE Omar', 'ZAKARI Mohammed', 'ZIATE Hamid'],
+        keywords: ['housing', 'dormitory', 'residence'],
         facilities: ['Housing applications', 'Maintenance requests', 'Resident services'],
         phone: '📞0535862062',
         children: []
@@ -174,7 +190,8 @@ const locations = {
         radius: 5,
         type: 'office',
         consideredAs: "registrar_office",
-        keywords: ["registrar","office"],
+        staff: ['ACHEHBOUNE Amale', 'EL LEKHLIFI Kaoutar', 'EZZAHER Fatima', 'Faizan Rafi Hashmi', 'AIT LAHSEN Zineb', 'MERRAMANE Saad', 'OUMLAL Driss', 'ZIZOUNE Saida'],
+        keywords: ["registrar","office", "records", "transcript"],
         description: 'Student records, transcripts, and enrollment services',
         facilities: [],
         hours: 'Mon-Fri: 8:30-17:30',
@@ -190,6 +207,7 @@ const locations = {
         type: 'building',
         
         description: 'Modern fitness center with equipment and classes',
+        keywords: ['gym', 'fitness', 'workout', 'exercise'],
         facilities: ['Weight training', 'Cardio equipment'],
         facilitiesFr: ['Musculation', 'Équipement cardio'],
         facilitiesAr: ['تدريب الأثقال', 'معدات القلب'],
@@ -222,6 +240,7 @@ const locations = {
         radius: 20,
         type: 'building',
         consideredAs: "administrative_area",
+        staff: ['Hariclea P. Zengos', 'AMRIBET Boutaina', 'BOUMAHDI Aziza', 'MRABTI Rachid', 'SADIK Fatima', 'AAQUIL Mounia', 'BEN ABDALLAH Karima', 'BEN EL JARBOUH Abderrahim', 'EL MESBAHI Akram', 'CHATTINI Abdelouahed', 'DAHDAH Aziza', 'EL ADDOULI Ahmed', 'BALLAOUI Soukaina', 'BARBACHE Zineb', 'KARAOUI Souhir', 'KHATTARI Salah-Eddine', 'RHANNAI El Makhtar', 'RHIOUI Samira', 'SABIR Hajar', 'EL FADIL Oussama', 'SEGHIR Aziz', 'TAHIRI ALAOUI Soukaina'],
         keywords: ["vpaa","office", "buisiness"],
         description: 'Offices for various administrative functions',
         facilities: ['Office of the VPAA', 'Buisiness office'],
@@ -238,6 +257,7 @@ const locations = {
         radius: 20,
         type: 'building',
         consideredAs: "admissions",
+        staff: ['ATTI Mohamed', 'BELHIRCH Loubna', 'BENKHADDA Nadia', 'JAOUTEN Saifeddine', 'KENDOUSSI Mohammed Amine', 'IJAOUTEN Hayat', 'OULHASNI Mohamed', 'LMORTAJI Mohamed Amine', 'MADANE Hajiba', 'NASSIM Mohamed', 'HASSI Rania', 'RACHIDI Youssef', 'OUHMANE Siham', 'OULHASNI Salma', 'BAGHDADI Ayoub', 'LAFHAL Amine', 'OUFEDNA Salma'],
         keywords: ["admissions","office"],
         description: 'Offices for various administrative functions',
         
@@ -279,7 +299,7 @@ const locations = {
         radius: 10,
         type: 'dining',
         parent: 'administrative_area',
-        keywords: ["cafetiria", "dining", "food"],
+        keywords: ["cafetiria", "dining", "food", "coffee"],
         consideredAs: "administrative_area",
     },
     dining1: {
@@ -291,7 +311,7 @@ const locations = {
         radius: 30,
         type: 'dining',
         parent: 'administrative_area',
-        keywords: ["dining", "hall", "food","pizzeria"],
+        keywords: ["dining", "hall", "food","pizzeria", "cossa"],
         consideredAs: "administrative_area",
     },
     dining2: {
@@ -302,7 +322,7 @@ const locations = {
         icon: '🍽️',
         radius: 20,
         type: 'dining',
-        keywords: ["pizzeria", "food", "snacks"],
+        keywords: ["pizzeria", "food", "snacks", "proxirest"],
     },
     oasp: {
         name: 'Office of Academic Support and Support (OASP)',
@@ -312,7 +332,7 @@ const locations = {
         icon: '📋',
         radius: 10,
         type: 'building',
-        keywords: ["oasp", "office", "student"],
+        keywords: ["oasp", "office", "student", "academic support"],
         consideredAs: "administrative_area",
     },
     oip: {
@@ -323,7 +343,7 @@ const locations = {
         icon: '🌍',
         radius: 10,
         type: 'building',
-        keywords: ["oip", "office", "international"],
+        keywords: ["oip", "office", "international", "exchange"],
         
     },
     cle: {
@@ -334,7 +354,7 @@ const locations = {
         icon: '🎓',
         radius: 10,
         type: 'building',
-        keywords: ["cle", "center", "learning", "excellence"],
+        keywords: ["cle", "center", "learning", "excellence", "tutoring"],
     },
     fye: {
         name: 'First Year Experience (FYE) Center',
@@ -344,7 +364,7 @@ const locations = {
         icon: '🎓',
         radius: 10,
         type: 'building',
-        keywords: ["fye", "first year", "experience"],
+        keywords: ["fye", "first year", "experience", "freshmen"],
     },
     sec: {
         name: 'Safety & Security', 
@@ -354,6 +374,7 @@ const locations = {
         icon: '🚓', 
         radius: 10,
         type: 'office',
+        keywords: ['security', 'safety', 'police', 'emergency'],
 
     },
     its: {
@@ -365,6 +386,7 @@ const locations = {
         radius: 10,
         type: 'office',
         consideredAs: "sec",
+        keywords: ['its', 'it', 'technology', 'computer', 'support'],
 
     },
     ee:{
@@ -375,7 +397,7 @@ const locations = {
         icon: '💼',
         radius: 10,
         type: 'office',
-        keywords: ["employability", "entrepreneurship", "office"],
+        keywords: ["employability", "entrepreneurship", "office", "career", "job"],
     },
     finantial_aid:{//33.538506724054976, -5.106190737037273
         name: 'Financial Aid Office', 
@@ -385,7 +407,7 @@ const locations = {
         icon: '💰',
         radius: 10,
         type: 'office',
-        keywords: ["financial", "aid", "office"],
+        keywords: ["financial", "aid", "office", "scholarship", "funding"],
         consideredAs: "administrative_area",
 
     },

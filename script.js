@@ -76,6 +76,18 @@ function onLocationSelected(locationId) {
         `;
     }
     
+    // Add staff if available
+    if (location.staff && location.staff.length > 0) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>Staff:</h4>
+                <ul class="facilities-list">
+                    ${location.staff.map(staff => `<li>${staff}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
     // Add hours if available
     if (location.hours) {
         infoHTML += `
@@ -232,11 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function findMatches(query) {
         const q = query.toLowerCase();
         return Object.entries(locations).filter(([id, loc]) => {
-            return (
-                loc.name.toLowerCase().includes(q) ||
-                id.toLowerCase().includes(q) ||
-                (loc.keywords && loc.keywords.some(kw => kw.toLowerCase().includes(q))
-            ))
+            // Check name, id, and keywords
+            const nameMatch = loc.name.toLowerCase().includes(q);
+            const idMatch = id.toLowerCase().includes(q);
+            const keywordMatch = loc.keywords && loc.keywords.some(kw => kw.toLowerCase().includes(q));
+            
+            // Check staff names
+            const staffMatch = loc.staff && loc.staff.some(staff => staff.toLowerCase().includes(q));
+            
+            return nameMatch || idMatch || keywordMatch || staffMatch;
         });
     }
 
@@ -885,6 +901,18 @@ function onLocationSelectedWithTranslation(locationId) {
         }
     }
 
+    // Add staff if available
+    if (location.staff && location.staff.length > 0) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].staff}:</h4>
+                <ul class="facilities-list">
+                    ${location.staff.map(staff => `<li>${staff}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
     // Add hours if available
     if (location.hours) {
         infoHTML += `
