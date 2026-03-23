@@ -633,7 +633,14 @@ function updateLocationDropdown(language) {
     
     locationSelect.innerHTML = `
         <option value="" disabled selected>${translations[language].select_location}</option>
-        <option value="parking_1">🅿️ ${translations[language].parking_1}</option>
+        <option value="administrative_area">🏛️ ${translations[language].administrative_area}</option>
+        <option value="building_1_p">📋 ├─ ${translations[language].building_1_p}</option>
+        <option value="registrar_office">📋 ├─├─ ${translations[language].registrar_office}</option>
+        <option value="finantial_aid">📋 ├─├─ ${translations[language].finantial_aid}</option>
+        <option value="building_1_v">📋 ├─ ${translations[language].building_1_v}</option>
+        <option value="sao">📋 ├─ ${translations[language].sao}</option>
+        <option value="oasp">📋 ├─ ${translations[language].oasp}</option>
+        <option value="admissions">📋 ├─ ${translations[language].admissions}</option>
         <option value="academic_area">🎓 ${translations[language].academic_area}</option>
         <option value="sse">🎓 ├─ ${translations[language].sse}</option>
         <option value="sba">🎓 ├─ ${translations[language].sba}</option>
@@ -645,24 +652,17 @@ function updateLocationDropdown(language) {
         <option value="cle">🎓 ├─ ${translations[language].cle}</option>
         <option value="fye">🎓 ├─ ${translations[language].fye}</option>
         <option value="ee">🎓 ├─ ${translations[language].ee}</option>
-        <option value="sec">🚓 ${translations[language].sec}</option>
-        <option value="its">💻 ${translations[language].its}</option>
-        <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
-        <option value="gym">💪 ├─ ${translations[language].gym}</option>
+        <option value="aud17">🎓 ├─  ${translations[language].aud17}</option>
         <option value="health_center">🏥 ${translations[language].health_center}</option>
-        <option value="administrative_area">🏛️ ${translations[language].administrative_area}</option>
-        <option value="building_1_p">📋 ├─ ${translations[language].building_1_p}</option>
-        <option value="registrar_office">📋 ├─├─ ${translations[language].registrar_office}</option>
-        <option value="finantial_aid">📋 ├─├─ ${translations[language].finantial_aid}</option>
-        <option value="building_1_v">📋 ├─ ${translations[language].building_1_v}</option>
-        <option value="sao">📋 ├─ ${translations[language].sao}</option>
-        <option value="oasp">📋 ├─ ${translations[language].oasp}</option>
-        <option value="admissions">📋 ├─ ${translations[language].admissions}</option>
+        <option value="housing_department">🏠 ${translations[language].housing_department}</option>
+        <option value="its">💻 ${translations[language].its}</option>
+        <option value="sec">🚓 ${translations[language].sec}</option>
         <option value="dining1">🍽️ ${translations[language].dining1}</option>
         <option value="dining2">🍽️ ${translations[language].dining2}</option>
         <option value="cafeteria">🍽️ ${translations[language].cafeteria}</option>
-        <option value="housing_department">🏠 ${translations[language].housing_department}</option>
-        <option value="aud17">🎭 ${translations[language].aud17}</option>
+        <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
+        <option value="gym">💪 ├─ ${translations[language].gym}</option>
+        <option value="parking_1">🅿️ ${translations[language].parking_1}</option>
     `;
     
     // Restore selected value
