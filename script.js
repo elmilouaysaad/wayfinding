@@ -22,9 +22,43 @@ let idleActiveSlide = 'a';
 let useLegacyIdleMode = false;
 
 function sanitizeIdleImages(images) {
-    return images
+    const unique = new Set();
+
+    images.forEach((item) => {
+        const cleaned = (item || '').trim();
+        if (cleaned) {
+            unique.add(cleaned);
+        }
+    });
+
+    return Array.from(unique)
         .map((item) => (item || '').trim())
         .filter(Boolean);
+}
+
+function toIdleImagePath(item) {
+    if (!item) return '';
+
+    const trimmed = item.trim();
+    if (!trimmed) return '';
+
+    if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+        return trimmed;
+    }
+
+    if (trimmed.startsWith('/')) {
+        return `${idleImagesFolder}${trimmed.replace(/^\/+/, '')}`;
+    }
+
+    if (trimmed.startsWith('./')) {
+        return trimmed;
+    }
+
+    if (trimmed.startsWith(`${idleImagesFolder}`)) {
+        return trimmed;
+    }
+
+    return `${idleImagesFolder}${trimmed}`;
 }
 
 function isImagePath(path) {
@@ -46,14 +80,17 @@ async function loadIdleImagesFromManifest() {
         if (!response.ok) return [];
 
         const parsed = await response.json();
-        if (!Array.isArray(parsed)) return [];
+        const manifestEntries = Array.isArray(parsed)
+            ? parsed
+            : Array.isArray(parsed?.images)
+                ? parsed.images
+                : [];
 
-        const normalized = parsed.map((item) => {
-            if (!item) return '';
-            return item.startsWith('http') || item.startsWith('/') || item.startsWith('./')
-                ? item
-                : `${idleImagesFolder}${item}`;
-        });
+        if (manifestEntries.length === 0) return [];
+
+        const normalized = manifestEntries
+            .map((item) => toIdleImagePath(String(item || '')))
+            .filter(isImagePath);
 
         return sanitizeIdleImages(normalized);
     } catch (error) {
@@ -75,9 +112,7 @@ async function loadIdleImagesFromDirectoryIndex() {
             const href = match[1].trim();
             if (!isImagePath(href)) continue;
 
-            const normalized = href.startsWith('http') || href.startsWith('/') || href.startsWith('./')
-                ? href
-                : `${idleImagesFolder}${href}`;
+            const normalized = toIdleImagePath(href);
 
             found.push(normalized);
         }
