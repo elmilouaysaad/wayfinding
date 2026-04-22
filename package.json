@@ -1,0 +1,25 @@
+{
+  "name": "wayfind",
+  "version": "1.0.0",
+  "description": "A web app that shows a campus map, lets users search/select locations, draws walking paths, and generates QR codes for Google Maps navigation. It also supports English, French, and Arabic UI text.",
+  "main": "map.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elmilouaysaad/wayfinding.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/elmilouaysaad/wayfinding/issues"
+  },
+  "homepage": "https://github.com/elmilouaysaad/wayfinding#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

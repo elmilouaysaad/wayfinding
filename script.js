@@ -5,7 +5,6 @@ let idleTimeout;
 const idleDelay = 30000; // 30 seconds
 const idleSlideDelay = 6000;
 const idleImagesFolder = 'idle-images/';
-const idleManifestPath = `${idleImagesFolder}manifest.json`;
 const idleProbeMaxSlides = 30;
 
 const legacyIdleImage = 'auilogo1.png';
@@ -21,10 +20,38 @@ let idleCurrentImageIndex = 0;
 let idleActiveSlide = 'a';
 let useLegacyIdleMode = false;
 
+// Watcher for real-time changes
+let idleImageWatcherInterval = null;
+const IDLE_IMAGE_REFRESH_MS = 30000; // 30 seconds
+
 function sanitizeIdleImages(images) {
-    return images
-        .map((item) => (item || '').trim())
-        .filter(Boolean);
+    const unique = new Set();
+    images.forEach((item) => {
+        const cleaned = (item || '').trim();
+        if (cleaned) {
+            unique.add(cleaned);
+        }
+    });
+    return Array.from(unique).map((item) => (item || '').trim()).filter(Boolean);
+}
+
+function toIdleImagePath(item) {
+    if (!item) return '';
+    const trimmed = item.trim();
+    if (!trimmed) return '';
+    if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+        return trimmed;
+    }
+    if (trimmed.startsWith('/')) {
+        return `${idleImagesFolder}${trimmed.replace(/^\/+/, '')}`;
+    }
+    if (trimmed.startsWith('./')) {
+        return trimmed;
+    }
+    if (trimmed.startsWith(`${idleImagesFolder}`)) {
+        return trimmed;
+    }
+    return `${idleImagesFolder}${trimmed}`;
 }
 
 function isImagePath(path) {
@@ -40,84 +67,55 @@ async function canLoadImage(path) {
     });
 }
 
-async function loadIdleImagesFromManifest() {
-    try {
-        const response = await fetch(idleManifestPath, { cache: 'no-store' });
-        if (!response.ok) return [];
-
-        const parsed = await response.json();
-        if (!Array.isArray(parsed)) return [];
-
-        const normalized = parsed.map((item) => {
-            if (!item) return '';
-            return item.startsWith('http') || item.startsWith('/') || item.startsWith('./')
-                ? item
-                : `${idleImagesFolder}${item}`;
-        });
-
-        return sanitizeIdleImages(normalized);
-    } catch (error) {
-        return [];
-    }
-}
-
+// Load images by reading directory listing (no manifest.json)
 async function loadIdleImagesFromDirectoryIndex() {
     try {
         const response = await fetch(idleImagesFolder, { cache: 'no-store' });
         if (!response.ok) return [];
-
         const text = await response.text();
         const hrefRegex = /href=["']([^"']+)["']/gi;
         const found = [];
         let match;
-
         while ((match = hrefRegex.exec(text)) !== null) {
             const href = match[1].trim();
             if (!isImagePath(href)) continue;
-
-            const normalized = href.startsWith('http') || href.startsWith('/') || href.startsWith('./')
-                ? href
-                : `${idleImagesFolder}${href}`;
-
+            const normalized = toIdleImagePath(href);
             found.push(normalized);
         }
-
         return sanitizeIdleImages(found);
     } catch (error) {
         return [];
     }
 }
 
+// Fallback: probe slide1.jpg, slide2.jpg, etc.
 async function loadIdleImagesByProbe() {
     const extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
     const candidates = [];
-
     for (let i = 1; i <= idleProbeMaxSlides; i += 1) {
         extensions.forEach((ext) => {
             candidates.push(`${idleImagesFolder}slide${i}.${ext}`);
         });
     }
-
     const checks = await Promise.all(candidates.map((path) => canLoadImage(path)));
     return candidates.filter((_, index) => checks[index]);
 }
 
+// Main loader: first try directory listing, then fallback to probe
 async function loadIdleImages() {
-    const fromManifest = await loadIdleImagesFromManifest();
-    if (fromManifest.length > 0) return fromManifest;
-
-    const fromDirectoryIndex = await loadIdleImagesFromDirectoryIndex();
-    if (fromDirectoryIndex.length > 0) return fromDirectoryIndex;
-
-    const fromProbe = await loadIdleImagesByProbe();
-    if (fromProbe.length > 0) return fromProbe;
-
-    return [];
+    try {
+        const response = await fetch('/api/idle-images', { cache: 'no-store' });
+        if (!response.ok) return [];
+        const imageUrls = await response.json();
+        return imageUrls.filter(url => url && url.trim() !== '');
+    } catch (error) {
+        console.error('Failed to fetch idle images:', error);
+        return [];
+    }
 }
 
 function setIdleMode(isLegacyMode) {
     useLegacyIdleMode = isLegacyMode;
-
     if (useLegacyIdleMode) {
         idleStaticImage.src = legacyIdleImage;
         idleStaticImage.style.display = 'block';
@@ -135,9 +133,7 @@ function applyBackgroundImage(element, imageSrc) {
 function showSlide(slideKey, imageSrc, makeVisible = true) {
     const targetSlide = slideKey === 'a' ? idleSlideA : idleSlideB;
     const otherSlide = slideKey === 'a' ? idleSlideB : idleSlideA;
-
     applyBackgroundImage(targetSlide, imageSrc);
-
     if (makeVisible) {
         targetSlide.classList.add('active');
         otherSlide.classList.remove('active');
@@ -146,7 +142,6 @@ function showSlide(slideKey, imageSrc, makeVisible = true) {
 
 function stepIdleSlideshow() {
     if (idleImages.length === 0) return;
-
     idleCurrentImageIndex = (idleCurrentImageIndex + 1) % idleImages.length;
     idleActiveSlide = idleActiveSlide === 'a' ? 'b' : 'a';
     showSlide(idleActiveSlide, idleImages[idleCurrentImageIndex], true);
@@ -157,13 +152,10 @@ function startIdleSlideshow() {
         stopIdleSlideshow();
         return;
     }
-
     clearInterval(idleSlideTimer);
-
     idleCurrentImageIndex = idleCurrentImageIndex % idleImages.length;
     idleActiveSlide = 'a';
     showSlide('a', idleImages[idleCurrentImageIndex], true);
-
     if (idleImages.length > 1) {
         const nextIndex = (idleCurrentImageIndex + 1) % idleImages.length;
         showSlide('b', idleImages[nextIndex], false);
@@ -176,43 +168,70 @@ function stopIdleSlideshow() {
     idleSlideTimer = null;
 }
 
-// Show splash
 function showIdleScreen() {
-  startIdleSlideshow();
-  idleScreen.style.display = "flex";
+    startIdleSlideshow();
+    idleScreen.style.display = "flex";
 }
 
-// Hide splash
 function hideIdleScreen() {
-  idleScreen.style.display = "none";
-  stopIdleSlideshow();
+    idleScreen.style.display = "none";
+    stopIdleSlideshow();
 }
 
-// Reset timer on activity (any interaction keeps the kiosk awake)
 function resetIdleTimer() {
-  hideIdleScreen();
-  clearTimeout(idleTimeout);
-  idleTimeout = setTimeout(showIdleScreen, idleDelay);
+    hideIdleScreen();
+    clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(showIdleScreen, idleDelay);
+}
+
+// Periodically check for new images in the folder
+async function refreshIdleImagesAndRestart() {
+    const newImages = await loadIdleImages();
+    // Simple check if the list changed
+    const changed = newImages.length !== idleImages.length ||
+                    !newImages.every((val, idx) => val === idleImages[idx]);
+    if (changed) {
+        idleImages = newImages;
+        if (idleScreen.style.display === 'flex') {
+            stopIdleSlideshow();
+            if (idleImages.length === 0) {
+                setIdleMode(true);
+            } else {
+                setIdleMode(false);
+                startIdleSlideshow();
+            }
+        } else {
+            if (idleImages.length === 0) {
+                setIdleMode(true);
+            } else {
+                setIdleMode(false);
+            }
+        }
+    }
+}
+
+function startIdleImageWatcher() {
+    if (idleImageWatcherInterval) clearInterval(idleImageWatcherInterval);
+    idleImageWatcherInterval = setInterval(refreshIdleImagesAndRestart, IDLE_IMAGE_REFRESH_MS);
 }
 
 async function initializeIdleSlideshow() {
     idleImages = await loadIdleImages();
     idleCurrentImageIndex = 0;
-
     if (idleImages.length === 0) {
         setIdleMode(true);
-        return;
+    } else {
+        setIdleMode(false);
+        startIdleSlideshow();
     }
-
-    setIdleMode(false);
-    startIdleSlideshow();
+    startIdleImageWatcher();
 }
 
 initializeIdleSlideshow();
 
 // Events that count as "activity"
 ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(event => {
-  document.addEventListener(event, resetIdleTimer);
+    document.addEventListener(event, resetIdleTimer);
 });
 
 // Start timer on load
@@ -220,6 +239,7 @@ resetIdleTimer();
 
 // Initialize map with the current location as default starting point
 initMap(locationId);
+
 
 // Function to handle location selection
 // In script.js - Update your onLocationSelected function

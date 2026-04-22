@@ -127,6 +127,7 @@ An object keyed by language code (en, fr, ar). Each language has:
 - A subtle pan/zoom animation keeps images moving while displayed.
 - Put images in the folder: idle-images/
 - No UI settings are shown in the app.
+- For production hosting, create idle-images/manifest.json with an array of image file names because many servers disable directory listing.
 - Auto-loading priority:
    - If idle-images/manifest.json exists and contains an array of image names/paths, it is used.
    - Otherwise, if your web server exposes folder listing, images are discovered automatically.
