@@ -1,0 +1,4 @@
+- Ubuntu 24.04 LTS
+- vCPU: 4
+- RAM: 8 GB
+- Disk: 80 GB SSD

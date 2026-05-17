@@ -473,8 +473,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.dataset.locationId = id;
                 item.innerHTML = `
                     <div class="result-name">${loc.name}</div>
-                   
-                `;
+                
+                    `;
                 
                 item.addEventListener('click', () => selectResult(id));
                 item.addEventListener('mouseover', () => previewResult(id));
@@ -500,6 +500,7 @@ function selectResult(id) {
     document.getElementById('location-select').value = "";
     
     // Trigger the location selection with translation support
+    console.log('selectResult called with id:', id, 'location:', locations[id]);
     handleLocationSelection(id);
 }
 
@@ -516,6 +517,8 @@ function handleLocationSelection(locationId) {
     // Get the location data
     const location = locations[locationId];
     if (!location) return;
+    
+    console.log('handleLocationSelection:', locationId, 'staff array:', location.staff);
     
     // Get current language
     const lang = currentLanguage;
@@ -560,6 +563,18 @@ function handleLocationSelection(locationId) {
                 <h4>${translations[lang].facilities}:</h4>
                 <ul class="facilities-list">
                     ${facilitiesList.map(facility => `<li>${facility}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Add staff if available
+    if (location.staff && location.staff.length > 0) {
+        infoHTML += `
+            <div class="location-section">
+                <h4>${translations[lang].staff}:</h4>
+                <ul class="facilities-list">
+                    ${location.staff.map(staff => `<li>${staff}</li>`).join('')}
                 </ul>
             </div>
         `;
