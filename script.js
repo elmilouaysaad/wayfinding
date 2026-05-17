@@ -888,6 +888,9 @@ function updateLocationDropdown(language) {
         <option value="athletic_area">⚽ ${translations[language].athletic_area}</option>
         <option value="gym">💪 ├─ ${translations[language].gym}</option>
         <option value="parking_1">🅿️ ${translations[language].parking_1}</option>
+        <option value="parking_2">🅿️ ${translations[language].parking_2}</option>
+        <option value="parking_3">🅿️ ${translations[language].parking_3}</option>
+        <option value="parking_4">🅿️ ${translations[language].parking_4}</option>
     `;
     
     // Restore selected value

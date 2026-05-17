@@ -49,6 +49,45 @@ const locations = {
         facilities: [],
         children: []
     },
+    parking_2: {
+        name: 'Parking 2',
+        lat: 33.536994861377146,
+        lng: -5.1040215761184,
+        size: "large",
+        icon: '🅿️',
+        radius: 50,
+        type: 'parking',
+        description: 'Secondary parking area',
+        keywords: ['parking'],
+        facilities: [],
+        children: []
+    },
+    parking_3: {
+        name: 'Parking 3',
+        lat: 33.541600338779425,
+        lng: -5.104695773617529,
+        size: "large",
+        icon: '🅿️',
+        radius: 50,
+        type: 'parking',
+        description: 'Overflow parking lot',
+        keywords: ['parking'],
+        facilities: [],
+        children: []
+    },
+    parking_4: {
+        name: 'Parking 4',
+        lat: 33.5407666059736,
+        lng: -5.103242096691436,
+        size: "large",
+        icon: '🅿️',
+        radius: 50,
+        type: 'parking',
+        description: 'Staff and visitor parking',
+        keywords: ['parking'],
+        facilities: [],
+        children: []
+    },
     academic_area: {
         name: 'Academic Area', 
         lat: 33.538753431708265, 

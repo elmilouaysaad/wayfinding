@@ -31,6 +31,9 @@ const translations = {
     standard_phone: "Standard Phone Number",
     // Location names
     parking_1: "Parking 1",
+    parking_2: "Parking 2",
+    parking_3: "Parking 3",
+    parking_4: "Parking 4",
     starting_point_2: "Starting Point 2",
     starting_point_3: "Starting Point 3",
     academic_area: "Academic Area",
@@ -64,6 +67,9 @@ const translations = {
     finantial_aid: "Financial Aid Office",
     // Location descriptions
     parking_1_desc: "Main parking area for visitors and students",
+    parking_2_desc: "Secondary parking area",
+    parking_3_desc: "Overflow parking lot",
+    parking_4_desc: "Staff and visitor parking",
     academic_area_desc: "Main academic buildings and lecture halls",
     administrative_area_desc: "Administrative offices and student services",
     registrar_office_desc:"Student records, transcripts, and enrollment services",
@@ -153,6 +159,9 @@ const translations = {
     parking_1: "Parking 1",
     starting_point_2: "Point de Départ 2",
     starting_point_3: "Point de Départ 3",
+    parking_2: "Parking 2",
+    parking_3: "Parking 3",
+    parking_4: "Parking 4",
     academic_area: "Zone Académique",
     athletic_area: "Zone Sportive",
     health_center: "Centre de Santé",
@@ -185,6 +194,9 @@ const translations = {
     // Location descriptions
     parking_1_desc:
       "Zone de stationnement principale pour visiteurs et étudiants",
+    parking_2_desc: "Zone de stationnement secondaire",
+    parking_3_desc: "Parking de débordement",
+    parking_4_desc: "Parking pour le personnel et les visiteurs",
     academic_area_desc: "Bâtiments académiques principaux et amphithéâtres",
 
     administrative_area_desc: "Bureaux administratifs et services étudiants",
@@ -274,6 +286,9 @@ const translations = {
     parking_1: "موقف السيارات 1",
     starting_point_2: "نقطة البداية 2",
     starting_point_3: "نقطة البداية 3",
+    parking_2: "موقف السيارات 2",
+    parking_3: "موقف السيارات 3",
+    parking_4: "موقف السيارات 4",
     academic_area: "المنطقة الأكاديمية",
     athletic_area: "المنطقة الرياضية",
     health_center: "المركز الصحي",
@@ -306,6 +321,9 @@ const translations = {
     //
     // Location descriptions
     parking_1_desc: "منطقة الوقوف الرئيسية للزوار والطلاب",
+    parking_2_desc: "منطقة وقوف ثانوية",
+    parking_3_desc: "موقف سيارات إضافي",
+    parking_4_desc: "موقف للزوار والموظفين",
     academic_area_desc: "المباني الأكاديمية الرئيسية وقاعات المحاضرات",
     athletic_area_desc: "يسعى قسم الرياضة في جامعة الأخوين إلى توفير أفضل تجربة رياضية للطلاب. يمكن للطلاب الرياضيين المنضمين إلى  الفرق الرسمية للجامعة الاستفادة من جميع المزايا التي تقدمها الرياضات التنافسية. يقع مركز اللياقة البدنية  بالقرب من القاعة الرياضية وبجوار الملعب الرئيسي لكرة القدم، وتبلغ مساحته أكثر من 90 مترًا مربعًا، وهو أحدث  مرفق رياضي في الحرم الجامعي. يضم المركز قاعة للياقة، وقاعة للتمارين البدنية، وقاعة للقلب والأوعية الدموي ية،  وقاعة لتنس الطاولة، بالإضافة إلى متجر رياضي. ويتميز المركز بمعدات حديثة ومتطورة مستوردة من شركات أمريكية  معروفة مثل Life Fitness.",
     health_center_desc: "يضم مركز الصحة بجامعة الأخوين أربعة أطباء وأربع ممرضات، مع تواجد طبيب وممرضة في حالة جاهزية لتقديم  الرعاية الطبية على مدار الساعة وطوال أيام الأسبوع. يقع المركز في المبنى 26 بالطابق الأرضي، ويوفر خدمات  طبية من الساعة 08:30 صباحًا حتى 11:00 مساءً، بينما تتوفر الاس ستشارات الطبية من الساعة 09:00 صباحًا حتى  06:00 مساءً. في حالات الطوارئ خارج أوقات العمل، يرجى التواصل مع مدير السكن (للرجال - تحويلة 555،  للنساء - تحويلة 3 3333)، أو الأمن (تحويلة 2222)، أو الممرض المناوب على الرقم 2057.",
