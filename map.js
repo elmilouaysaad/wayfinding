@@ -9,7 +9,32 @@ let destinationIdNew = null;
 
 // Campus locations
 const locations = {
-    
+    starting_point_2: {
+        name: 'Starting Point 2',
+        lat: 33.53908629354308,
+        lng: -5.106356709789806,
+        size: "small",
+        icon: '📍',
+        radius: 10,
+        type: 'starting_point',
+        description: 'Alternative starting point',
+        keywords: ['starting', 'point', 'start'],
+        facilities: [],
+        children: []
+    },
+    starting_point_3: {
+        name: 'Starting Point 3',
+        lat: 33.53866024086638,
+        lng: -5.106855546965037,
+        size: "small",
+        icon: '📍',
+        radius: 10,
+        type: 'starting_point',
+        description: 'Alternative starting point',
+        keywords: ['starting', 'point', 'start'],
+        facilities: [],
+        children: []
+    },
     
     parking_1: {
         name: 'Parking 1', 

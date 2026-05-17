@@ -31,6 +31,8 @@ const translations = {
     standard_phone: "Standard Phone Number",
     // Location names
     parking_1: "Parking 1",
+    starting_point_2: "Starting Point 2",
+    starting_point_3: "Starting Point 3",
     academic_area: "Academic Area",
     athletic_area: "Athletic Area",
     health_center: "Health Center",
@@ -149,6 +151,8 @@ const translations = {
     standard_phone: "Numéro de Téléphone Standard",
     // Location names
     parking_1: "Parking 1",
+    starting_point_2: "Point de Départ 2",
+    starting_point_3: "Point de Départ 3",
     academic_area: "Zone Académique",
     athletic_area: "Zone Sportive",
     health_center: "Centre de Santé",
@@ -268,6 +272,8 @@ const translations = {
     standard_phone: "رقم الهاتف العادي",
     // Location names
     parking_1: "موقف السيارات 1",
+    starting_point_2: "نقطة البداية 2",
+    starting_point_3: "نقطة البداية 3",
     academic_area: "المنطقة الأكاديمية",
     athletic_area: "المنطقة الرياضية",
     health_center: "المركز الصحي",
