@@ -73,7 +73,7 @@ app.get('/api/idle-images', (req, res) => {
 // ---------------------------
 // Start the server
 // ---------------------------
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${PORT}`);
     console.log(`Idle images API: http://localhost:${PORT}/api/idle-images`);
     console.log(`Rclone sync will run every ${RCLONE_SYNC_INTERVAL_MS / 1000} seconds.`);
