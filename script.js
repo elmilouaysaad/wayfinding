@@ -807,6 +807,7 @@ function initializeViewToggle() {
             // Switch to map view
             mapElement.style.display = 'block';
             pictureElement.style.display = 'none';
+            document.body.classList.remove('picture-fullscreen-mode');
             toggleIcon.textContent = '🖼️';
             toggleText.textContent = 'Picture View';
             
@@ -820,6 +821,8 @@ function initializeViewToggle() {
             // Switch to picture view
             mapElement.style.display = 'none';
             pictureElement.style.display = 'flex';
+            // add a body-level class to enforce absolute fullscreen overlay via CSS
+            document.body.classList.add('picture-fullscreen-mode');
             toggleIcon.textContent = '🗺️';
             toggleText.textContent = 'Map View';
         }
